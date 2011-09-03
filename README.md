@@ -17,11 +17,11 @@ Building
 --------
 
 The library is built using `make.py`, a custom script which performs all of the
-build operations. You must have Python, Google Closure Linter, and Java
-installed and accessible on your path.
+build operations. You must have [Python][2], [Google Closure Lint][3], and
+[Java][4] installed and accessible on your path.
 
 Once built, the assembled library will be created in the `dist/` folder along
-with a compressed version.
+with a compressed, [closure-compiled][5] version.
 
 
 
@@ -53,4 +53,7 @@ License
 
 
  [1]: http://pyyjs.com/
- [2]: http://nodejs.org/
+ [2]: http://www.python.org/getit/
+ [3]: http://code.google.com/closure/utilities/docs/linter_howto.html
+ [4]: http://www.java.com/en/download/
+ [5]: http://code.google.com/closure/compiler/
