@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Test</title>
+		<script type="text/javascript" src="../src/core.js"></script>
+		<script type="text/javascript" src="../src/tags.js"></script>
+	</head>
+	<body>
+		<p id="one">One</p>
+		<p id="two">Two</p>
+		<p id="three">Three</p>
+		<p id="abcd">A</p>
+
+		<script type="text/javascript">
+			var one = document.getElementById('one');
+			var two = document.getElementById('two');
+			var three = document.getElementById('three');
+			var abcd = document.getElementById('abcd');
+
+			// Tags in the pyy namespace
+			one.appendChild(
+				pyy.tags.ul(
+					pyy.tags.li('Hello'),
+					pyy.tags.li('World')
+				)
+			);
+
+			// Tags by binding to any object
+			var $ = {};
+			pyy.tags.bind($);
+			two.appendChild($.ul($.li('Hello'), $.li('World')));
+
+			// Tags via globals
+			pyy.tags.bind();
+			three.appendChild(ul(li('Hello'), li('World')));
+
+			// Text nodes
+			abcd.appendChild(pyy.tags.text('B'))
+			abcd.appendChild($.text('C'));
+			abcd.appendChild(text('D'));
+		</script>
+	</body>
+</html>
