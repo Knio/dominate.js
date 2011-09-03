@@ -1,1 +1,1 @@
-version = "0.1.0pre";
+version = "0.1.0-dev";

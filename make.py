@@ -2,7 +2,6 @@
 
 import os
 import sys
-import shutil
 import subprocess
 
 from datetime import datetime
@@ -25,11 +24,10 @@ name_min = name_lib + '.min.js'
 file_out  = os.path.join(dir_dist, name_out)
 file_min  = os.path.join(dir_dist, name_min)
 file_head = os.path.join(dir_build, 'header.js')
+file_latest_out = os.path.join(dir_dist, 'pyy-latest.js')
+file_latest_min = os.path.join(dir_dist, 'pyy-latest.min.js')
 
 print('Building ' + name_lib + '...')
-
-shutil.rmtree(dir_dist)
-os.mkdir(dir_dist)
 
 # Read header file
 header = None
@@ -65,6 +63,9 @@ if fail:
 data_out = header + data
 with open(file_out, 'w') as f:
     f.write(data_out)
+if 'dev' not in version:
+    with open(file_latest_out, 'w') as f:
+        f.write(data_out)
 
 # TODO Run test suite
 
@@ -83,3 +84,6 @@ except subprocess.CalledProcessError:
     sys.exit(1)
 with open(file_min, 'w') as f:
     f.write(data_min)
+if 'dev' not in version:
+    with open(file_latest_min, 'w') as f:
+        f.write(data_min)
