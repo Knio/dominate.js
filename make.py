@@ -70,7 +70,8 @@ if 'dev' not in version:
 # TODO Run test suite
 
 # Compress with closure compiler
-data_min = header
+print('Compiling...')
+data_min = header + '\n'
 cmd = ['java', '-jar', 'closure-compiler-20110811.jar']
 try:
     closure = subprocess.Popen(cmd,
@@ -87,3 +88,5 @@ with open(file_min, 'w') as f:
 if 'dev' not in version:
     with open(file_latest_min, 'w') as f:
         f.write(data_min)
+
+print('Success.')
