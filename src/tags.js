@@ -10,19 +10,26 @@
     'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
   ];
 
-  /**
-   * Determine whether or not an object is a DOM node.
-   *
-   * @param {obj} Unknown object.
-   * @return {boolean} Whether or not the object is a DOM node.
-   */
-  var is_node = function(obj) {
-    try {
-      return (obj instanceof Node);
-    } catch (e) {
-      return obj && obj.nodeType;
-    }
+  var U = pyy.utils;
+  var H = {
+
+    /**
+     * Determine whether or not an object is a DOM node.
+     *
+     * @param {obj} Unknown object.
+     * @return {boolean} Whether or not the object is a DOM node.
+     */
+    var is_node = function(obj)
+    {
+      try       { return (obj instanceof Node); }
+      catch (e) { return obj && obj.nodeType; }
+    },
+
+
+
+
   };
+
 
   /**
    * Converts all keys in dictionary from '_' or '-' to camelCase.
