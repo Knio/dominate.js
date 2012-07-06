@@ -1,3 +1,9 @@
+//  HTML utility functions
+// TODO:
+// split this into
+// - internal functions
+// - api functions
+// - api(tag, ...) functions that can be wrapped
 (function() {
 
   var U = pyy.utils;
@@ -50,6 +56,15 @@
       return (typeof text === 'string') ? document.createTextNode(text) : null;
     },
 
+    css: function(dom) {
+      U.foreach(U.args(arguments, 1), function(css) {
+        U.foreach(css, function(val, key) {
+          dom.style[U.css2js(key)] = val;
+        });
+      });
+    },
+
+
     update: function(dom) {
       var context = dom;
 
@@ -82,12 +97,11 @@
             } else if (key === 'class' || key === 'cls') {
               if (!value) { continue; }
               var classes = value.split(/\s+/);
-              for (var c = 0; c < classes.length; c++) {
-                Y.DOM.addClass(dom, classes[c]);
-              }
+              classes = clases.concat(dom.getAttribute('class').split(/\s+/));
+              document.setAttribute('class', classes.join(' '));
             } else if (key === 'style') {
               // style: {background: '#000'}
-              Y.DOM.setStyles(dom, H.css2js_style_names(value));
+              H.css(dom, value);
             } else if (key.slice(0, 2) === 'on') {
               // an event handler
               var f = value, args = [];
@@ -96,10 +110,10 @@
                 args = value.args;
               }
               args = [key.slice(2), f, dom, context].concat(args);
-              Y.on.apply(Y, args);
+              Y.on.apply(Y, args); // TODO XXX fix this
             } else {
               // otherwise a regular attribute
-              Y.DOM.setAttribute(dom, key, value);
+              dom.setAttribute(key, value);
             }
           }
         }

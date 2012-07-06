@@ -1,3 +1,4 @@
+// Create & bind HTML tag functions
 (function() {
   var tags = [
     'a', 'address', 'article', 'aside', 'audio', 'blockquote', 'br', 'button',

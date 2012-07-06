@@ -1,3 +1,6 @@
+/*
+Basic JavaScript utility functions
+*/
 (function(){
 
   var U = {
@@ -58,6 +61,10 @@
         dst[k] = v;
       });
       return dst;
+    },
+
+    args: function(args, n) {
+      return Array.prototype.slice.call(args, n || args.length);
     }
   };
 
