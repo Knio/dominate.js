@@ -11,7 +11,7 @@ var pyy = function() {
   alert('pyy!');
 };
 
-function(exports) {
+(function(exports) {
 /*
 Basic JavaScript utility functions
 */
@@ -83,7 +83,7 @@ var U = exports.utils = {
 
 })(pyy);
 
-function(exports) {
+(function(exports) {
 //  HTML utility functions
 // TODO:
 // split this into
@@ -208,7 +208,7 @@ var H = exports.html = {
 
 })(pyy);
 
-function(exports) {
+(function(exports) {
 // Create & bind HTML tag functions
 
 var tag_names = [
@@ -232,7 +232,7 @@ U.foreach(tags, function(tag) {
 
 })(pyy);
 
-function(exports) {
+(function(exports) {
 
 var U = exports.utils;
 
@@ -249,24 +249,24 @@ var I = exports.io = {
   },
 
   get: function(url, func, context) {
-    I.xhr("GET", url, null, func, context);
+    I.xhr('GET', url, null, func, context);
   },
 
   post: function(url, data, func, context) {
-    I.xhr("GET", url, data, func, context);
-  };
+    I.xhr('GET', url, data, func, context);
+  }
 
 };
 
 })(pyy);
 
-function(exports) {
+(function(exports) {
 // TODO this module is unfinished and untested
 
 var U = exports.utils;
 var B = exports.bind = function bind(obj) {
-	var listeners = [];
-	var binding = function(a, b) {
+  var listeners = [];
+  var binding = function(a, b) {
     if (binding instanceof Array) {
       if      (arguments.length === 0)  { return obj; }
       else if (arguments.length === 1)  { return obj[a]; }
@@ -277,16 +277,16 @@ var B = exports.bind = function bind(obj) {
     }
 
     U.foreach(listeners, function(cb) {
-      cb.func.apply(cb.context, obj)
+      cb.func.apply(cb.context, obj);
     });
-  }
+  };
 
   binding.register = function(func, context) {
     listeners.push({func: func, context: context});
   };
   binding.unregister = function(func, contect) {
     listeners = U.remove(listeners, function(cb) {
-      return (cb.func === func) && cb.context === context);
+      return (cb.func === func) && (cb.context === context);
     });
   }
   return binding;
@@ -294,7 +294,7 @@ var B = exports.bind = function bind(obj) {
 
 })(pyy);
 
-function(exports) {
+(function(exports) {
 // TODO this module is unfinished and untested
 
 var U = pyy.utils;

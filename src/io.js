@@ -14,11 +14,11 @@ var I = exports.io = {
   },
 
   get: function(url, func, context) {
-    I.xhr("GET", url, null, func, context);
+    I.xhr('GET', url, null, func, context);
   },
 
   post: function(url, data, func, context) {
-    I.xhr("GET", url, data, func, context);
-  };
+    I.xhr('GET', url, data, func, context);
+  }
 
 };

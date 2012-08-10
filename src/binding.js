@@ -2,8 +2,8 @@
 
 var U = exports.utils;
 var B = exports.bind = function bind(obj) {
-	var listeners = [];
-	var binding = function(a, b) {
+  var listeners = [];
+  var binding = function(a, b) {
     if (binding instanceof Array) {
       if      (arguments.length === 0)  { return obj; }
       else if (arguments.length === 1)  { return obj[a]; }
@@ -14,16 +14,16 @@ var B = exports.bind = function bind(obj) {
     }
 
     U.foreach(listeners, function(cb) {
-      cb.func.apply(cb.context, obj)
+      cb.func.apply(cb.context, obj);
     });
-  }
+  };
 
   binding.register = function(func, context) {
     listeners.push({func: func, context: context});
   };
   binding.unregister = function(func, contect) {
     listeners = U.remove(listeners, function(cb) {
-      return (cb.func === func) && cb.context === context);
+      return (cb.func === func) && (cb.context === context);
     });
   }
   return binding;
