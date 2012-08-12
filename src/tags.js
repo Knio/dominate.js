@@ -9,12 +9,15 @@ var tag_names = [
   'progress', 'script', 'section', 'select', 'small', 'source', 'span',
   'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea',
   'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
+  // TODO add more here (svg, etc)
 ];
 
 var U = exports.utils;
 var H = exports.html;
 var T = exports.tags = {};
 
+T.text = H.text;
 U.foreach(tag_names, function(tag) {
   T[tag] = H.create(tag);
 });
+

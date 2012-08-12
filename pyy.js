@@ -226,6 +226,7 @@ var H = exports.html = {
         }
       }
     }
+    return dom;
   }
 };
 
@@ -249,9 +250,11 @@ var U = exports.utils;
 var H = exports.html;
 var T = exports.tags = {};
 
+T.text = H.text;
 U.foreach(tag_names, function(tag) {
   T[tag] = H.create(tag);
 });
+
 
 })(pyy);
 
@@ -320,20 +323,32 @@ var B = exports.bind = function bind(obj) {
 (function(exports) {
 // TODO this module is unfinished and untested
 
-var U = pyy.utils;
+var U = exports.utils;
+var H = exports.html;
 
 var W = exports.wrap = function wrap(dom) {
     var wrapper = function() {
         var args = [dom].concat(U.args(arguments));
-        pyy.html.update.apply(this, args);
+        H.update.apply(this, args);
+        return wrapper;
     }
     wrapper.dom = dom;
 
     wrapper.css = function(css) {
-        pyy.html.css(dom, css);
+        H.css(dom, css);
+        return wrapper;
     }
 
-    U.mix(wrapper, pyy.tags);
+    var wrapped_create = function(create) {
+        return function() {
+            var node = create.apply(this, U.args(arguments));
+            dom.appendChild(node);
+            return W(node);
+        }
+    };
+
+    U.mix(wrapper, U.map(exports.tags, wrapped_create));
+
     // TODO
     // wrap functions in html and binding for awesomeness.
     // ideas:

@@ -8,9 +8,10 @@
   </head>
   <body>
     <script type="text/javascript">
-      // Tags in the pyy namespace
-      var body = document.body;
 
+
+      // using normal html tags
+      var body = document.body;
       body.appendChild(
         ul(
           li('Hello'),
@@ -18,13 +19,12 @@
         )
       );
 
+      // dynamicly generating tags
       var data = [
       	[1, 2, 3, 4, 5],
       	[1, 2, 3, 4, 5],
       	[1, 2, 3, 4, 5],
       ];
-
-      pyy(body)(pyy(p('Hi there')));
 
       var t = pyy(table());
       U.foreach(data, function(row) {
@@ -34,6 +34,10 @@
       t.css({'padding':'10px'});
       pyy(body)(t);
 
+      // chaining
+      var b = pyy(body);
+      b.h1("Title");
+      b.div({id:'mydiv'}).p().css({color:'red'}).text("Lorem Ipsum..");
 
     </script>
   </body>

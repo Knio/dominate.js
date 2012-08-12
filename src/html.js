@@ -137,5 +137,6 @@ var H = exports.html = {
         }
       }
     }
+    return dom;
   }
 };
