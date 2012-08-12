@@ -22,7 +22,6 @@ var H = exports.html = {
     U.foreach(obj, function(v, k) { js[H.css2js(k)] = v; });
     return js;
   },
-
   /**
    * Create an HTML tag method.
    *

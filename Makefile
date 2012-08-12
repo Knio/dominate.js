@@ -9,6 +9,8 @@ pyy.js: \
 	build/io.js \
 	build/binding.js \
 	build/wrapper.js \
+	build/api.js \
+	lib/sizzle.js \
 	Makefile
 
 pyy.js:
@@ -23,11 +25,15 @@ build/%.js: src/%.js
 	@cat src/_header.js > $@
 	cat $< >> $@
 	@cat src/_footer.js >> $@
-	@# TODO make this error if there is output
-	@# TODO and delete the file so make doesnt thinl it's built
-	@-gjslint $@ | grep 'E:[0-9]\{4\}' | grep -v -f lint_ignore
+	@gjslint $@ | grep 'E:[0-9]\{4\}' \
+		| grep -v -f lint_ignore  \
+		| python -c 'import sys;l=list(sys.stdin);map(sys.stdout.write,l);sys.exit(bool(l))'
+
+
+clean:
+	-rm build/* -r
+	-rm pyy.js pyy.min.js
 
 
 .PHONY: clean
-clean:
-	-rm build/* -r
+.DELETE_ON_ERROR:

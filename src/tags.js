@@ -13,8 +13,8 @@ var tag_names = [
 
 var U = exports.utils;
 var H = exports.html;
-var T = expotts.tags = {};
+var T = exports.tags = {};
 
-U.foreach(tags, function(tag) {
+U.foreach(tag_names, function(tag) {
   T[tag] = H.create(tag);
 });
