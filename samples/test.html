@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<title>Test</title>
-		<script type="text/javascript" src="../pyy.min.js"></script>
-	</head>
-	<body>
-		<script type="text/javascript">
-			// Tags in the pyy namespace
-			var body = document.body;
+  <head>
+    <title>Test</title>
+	  <!-- <script type="text/javascript" src="https://raw.github.com/Knio/pyy.js/master/pyy.min.js"></script> -->
+	  <script type="text/javascript" src="../pyy.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // Tags in the pyy namespace
+      var body = document.body;
 
-			body.appendChild(
-				ul(
-					li('Hello'),
-					li('World')
-				)
-			);
+      body.appendChild(
+        ul(
+          li('Hello'),
+          li('World')
+        )
+      );
 
-		</script>
-	</body>
+      var data = [
+      	[1, 2, 3, 4, 5],
+      	[1, 2, 3, 4, 5],
+      	[1, 2, 3, 4, 5],
+      ];
+
+      pyy(body)(pyy(p('Hi there')));
+
+      var t = pyy(table());
+      U.foreach(data, function(row) {
+      	cols = U.map(row, function(x) { return td(x); });
+      	t(tr(cols));
+      });
+      t.css({'padding':'10px'});
+      pyy(body)(t);
+
+
+    </script>
+  </body>
 </html>

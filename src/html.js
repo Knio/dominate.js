@@ -51,17 +51,16 @@ var H = exports.html = {
    * @return {node} DOM element.
    */
   text: function(text) {
-    return (typeof text === 'string') ? document.createTextNode(text) : null;
+    return document.createTextNode('' + text);
   },
 
   css: function(dom) {
     U.foreach(U.args(arguments, 1), function(css) {
       U.foreach(css, function(val, key) {
-        dom.style[U.css2js(key)] = val;
+        dom.style[H.css2js(key)] = val;
       });
     });
   },
-
 
   update: function(dom) {
     var context = dom;
@@ -71,19 +70,31 @@ var H = exports.html = {
 
       var i, key;
       if (H.is_node(argument)) {
+        // child node
         dom.appendChild(argument);
-      } else if (typeof argument === 'string') {
+      } else if (typeof argument === 'string' || typeof argument === 'number') {
+        // text node
         dom.appendChild(document.createTextNode(argument));
       } else if (argument instanceof Array) {
+        // array. flatten it
         for (i = 0; i < argument.length; i++) {
-          this.update(dom, argument[i]);
+          H.update(dom, argument[i]);
         }
+      } else if (typeof argument === 'function') {
+          if (argument.hasOwnProperty('dom')) {
+            // is a pyy.wrap()ed node. add it like a child
+            dom.appendChild(argument.dom);
+          }
+          else {
+            // What do we do here??
+          }
       } else {
+        // object. update attributes
         if ((typeof argument === 'object') &&
             argument.hasOwnProperty('context')) {
+          // grab special context property first
           context = argument.context;
         }
-
         for (key in argument) {
           if (!argument.hasOwnProperty(key)) {
             continue;
@@ -93,6 +104,7 @@ var H = exports.html = {
             // handled above - must be first
             continue;
           } else if (key === 'class' || key === 'cls') {
+            // add a class
             if (!value) { continue; }
             var classes = value.split(/\s+/);
             classes = clases.concat(dom.getAttribute('class').split(/\s+/));
@@ -102,13 +114,22 @@ var H = exports.html = {
             H.css(dom, value);
           } else if (key.slice(0, 2) === 'on') {
             // an event handler
-            var f = value, args = [];
+            var type = key.slice(2);
+            var f = value, args = [], ctx = context, capture = false;
             if (typeof value !== 'function') {
               f = value.func;
-              args = value.args;
+              args    = value.args    || args;
+              ctx     = value.context || ctx;
+              capture = value.capture || capture;
+              if (args.length !== 0) {
+                f = function() {
+                  value.func.apply(ctx, args.concat(U.args(arguments)));
+                }
+              } else {
+                f = value.func;
+              }
             }
-            args = [key.slice(2), f, dom, context].concat(args);
-            Y.on.apply(Y, args); // TODO XXX fix this
+            dom.addEventListener(type, f, capture);
           } else {
             // otherwise a regular attribute
             dom.setAttribute(key, value);

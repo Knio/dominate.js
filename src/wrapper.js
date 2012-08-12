@@ -2,8 +2,18 @@
 
 var U = pyy.utils;
 
-var W = exports.wrap = function wrap(element) {
-    this.element = element;
+var W = exports.wrap = function wrap(dom) {
+    var wrapper = function() {
+        var args = [dom].concat(U.args(arguments));
+        pyy.html.update.apply(this, args);
+    }
+    wrapper.dom = dom;
+
+    wrapper.css = function(css) {
+        pyy.html.css(dom, css);
+    }
+
+    U.mix(wrapper, pyy.tags);
     // TODO
     // wrap functions in html and binding for awesomeness.
     // ideas:
@@ -14,5 +24,6 @@ var W = exports.wrap = function wrap(element) {
     name("Bar"); // updates div
 
     */
-};
 
+    return wrapper;
+};

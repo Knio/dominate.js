@@ -7,6 +7,9 @@
  *
  */
 
-var pyy = function() {
-  alert('pyy!');
+var pyy = function(arg) {
+  var args = pyy.utils.args(arguments);
+  if (pyy.html.is_node(arg)) {
+    return pyy.wrap(arg);
+  }
 };

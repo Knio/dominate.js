@@ -63,6 +63,6 @@ var U = exports.utils = {
   },
 
   args: function(args, n) {
-    return Array.prototype.slice.call(args, n || args.length);
+    return Array.prototype.slice.call(args, n || 0);
   }
 };
