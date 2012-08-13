@@ -12,4 +12,7 @@ var pyy = function(arg) {
   if (pyy.html.is_node(arg)) {
     return pyy.wrap(arg);
   }
+  if (typeof arg === 'string') {
+    return pyy.wrap2(Sizzle(arg));
+  }
 };

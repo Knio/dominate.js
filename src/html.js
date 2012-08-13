@@ -40,10 +40,6 @@ var H = exports.html = {
     };
   },
 
-  bind: function(context) {
-    U.mix(context || window, pyy.tags);
-  },
-
   /**
    * Create a DOM text node.
    *

@@ -12,6 +12,9 @@ var pyy = function(arg) {
   if (pyy.html.is_node(arg)) {
     return pyy.wrap(arg);
   }
+  if (typeof arg === 'string') {
+    return pyy.wrap2(Sizzle(arg));
+  }
 };
 
 (function(exports) {
@@ -129,10 +132,6 @@ var H = exports.html = {
     };
   },
 
-  bind: function(context) {
-    U.mix(context || window, pyy.tags);
-  },
-
   /**
    * Create a DOM text node.
    *
@@ -244,6 +243,7 @@ var tag_names = [
   'progress', 'script', 'section', 'select', 'small', 'source', 'span',
   'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea',
   'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
+  // TODO add more here (svg, etc)
 ];
 
 var U = exports.utils;
@@ -346,7 +346,6 @@ var W = exports.wrap = function wrap(dom) {
             return W(node);
         }
     };
-
     U.mix(wrapper, U.map(exports.tags, wrapped_create));
 
     // TODO
@@ -361,6 +360,31 @@ var W = exports.wrap = function wrap(dom) {
     */
 
     return wrapper;
+};
+
+var W2 = exports.wrap2 = function wrap(list) {
+
+    U.foreach(exports.tags, function bind(func, name) {
+        list[name] = function() {
+            var args = U.args(arguments);
+            return exports.wrap2(U.map(list, function(dom) {
+                var n = func.apply(this, args);
+                dom.appendChild(n);
+                return n;
+            }, this));
+        };
+    }, this);
+
+    list.css = function() {
+        var args = [null].concat(U.args(arguments));
+        U.foreach(list, function(dom) {
+            args[0] = dom;
+            H.css.apply(this, args);
+        }, this);
+        return list;
+    };
+    return list;
+
 };
 
 })(pyy);

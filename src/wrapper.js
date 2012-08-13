@@ -38,3 +38,32 @@ var W = exports.wrap = function wrap(dom) {
 
     return wrapper;
 };
+
+var W2 = exports.wrap2 = function wrap(list) {
+
+    // TODO we assume the list is of dom elements.
+    // What other possibilities are there?
+    U.foreach(exports.tags, function bind(func, name) {
+        list[name] = function() {
+            var args = U.args(arguments);
+            return exports.wrap2(U.map(list, function(dom) {
+                var n = func.apply(this, args);
+                dom.appendChild(n);
+                return n;
+            }, this));
+        };
+    }, this);
+
+    list.css = function() {
+        var args = [null].concat(U.args(arguments));
+        U.foreach(list, function(dom) {
+            args[0] = dom;
+            H.css.apply(this, args);
+        }, this);
+        return list;
+    };
+
+    // TODO events
+
+    return list;
+};
