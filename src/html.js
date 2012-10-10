@@ -7,6 +7,13 @@
 
 var U = exports.utils;
 var H = exports.html = {
+
+  empty: function(obj) {
+    obj.innerHTML = '';
+    return obj;
+  },
+  // *****
+
   is_node: function(obj) {
     try       { return (obj instanceof Node); }
     catch (e) { return obj && obj.nodeType; }

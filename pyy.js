@@ -109,6 +109,13 @@ U.json.stringify = JSON.stringify;
 
 var U = exports.utils;
 var H = exports.html = {
+
+  empty: function(obj) {
+    obj.innerHTML = '';
+    return obj;
+  },
+  // *****
+
   is_node: function(obj) {
     try       { return (obj instanceof Node); }
     catch (e) { return obj && obj.nodeType; }
@@ -336,6 +343,7 @@ var B = exports.bind = function bind(obj) {
 var U = exports.utils;
 var H = exports.html;
 
+// wrap a single DOM element with pyy functions
 var W = exports.wrap = function wrap(dom) {
     var wrapper = function() {
         var args = [dom].concat(U.args(arguments));
@@ -344,8 +352,15 @@ var W = exports.wrap = function wrap(dom) {
     }
     wrapper.dom = dom;
 
+    // TODO this should be part of a more general
+    // wrapper that does all html functions
     wrapper.css = function(css) {
         H.css(dom, css);
+        return wrapper;
+    };
+
+    wrapper.clear = wrapper.empty = function() {
+        H.empty(dom);
         return wrapper;
     }
 
@@ -369,9 +384,12 @@ var W = exports.wrap = function wrap(dom) {
 
     */
 
+
     return wrapper;
 };
 
+
+// wrap a list of DOM elements with pyy tag functions
 var W2 = exports.wrap2 = function wrap(list) {
 
     // TODO we assume the list is of dom elements.
@@ -396,8 +414,12 @@ var W2 = exports.wrap2 = function wrap(list) {
         return list;
     };
 
-    // TODO events
+    list.clear = list.empty = function() {
+        U.foreach(list, H.empty);
+        return list;
+    }
 
+    // TODO events
     return list;
 };
 
