@@ -1,11 +1,9 @@
-/*!
- * pyy.js
- *
- * Copyright 2012 Tom Flanagan, Jake Wharton
- * Released under the GNU LGPL Version 3
- * - http://www.gnu.org/licenses/lgpl.html
- *
- */
+
+/*
+pyy(elem) - return wrapped element
+
+elem can be a DOM reference or a css selector string
+*/
 
 var pyy = function(arg) {
   var args = pyy.utils.args(arguments);

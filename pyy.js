@@ -1,11 +1,9 @@
-/*!
- * pyy.js
- *
- * Copyright 2012 Tom Flanagan, Jake Wharton
- * Released under the GNU LGPL Version 3
- * - http://www.gnu.org/licenses/lgpl.html
- *
- */
+
+/*
+pyy(elem) - return wrapped element
+
+elem can be a DOM reference or a css selector string
+*/
 
 var pyy = function(arg) {
   var args = pyy.utils.args(arguments);
@@ -84,8 +82,20 @@ var U = exports.utils = {
 
   args: function(args, n) {
     return Array.prototype.slice.call(args, n || 0);
+  },
+
+  json: function(what) {
+    if (typeof what === 'string') {
+      return JSON.parse(what);
+    }
+    else {
+      return JSON.stringify(what);
+    }
   }
 };
+
+U.json.parse = JSON.parse;
+U.json.stringify = JSON.stringify;
 
 })(pyy);
 
@@ -364,6 +374,8 @@ var W = exports.wrap = function wrap(dom) {
 
 var W2 = exports.wrap2 = function wrap(list) {
 
+    // TODO we assume the list is of dom elements.
+    // What other possibilities are there?
     U.foreach(exports.tags, function bind(func, name) {
         list[name] = function() {
             var args = U.args(arguments);
@@ -383,8 +395,10 @@ var W2 = exports.wrap2 = function wrap(list) {
         }, this);
         return list;
     };
-    return list;
 
+    // TODO events
+
+    return list;
 };
 
 })(pyy);

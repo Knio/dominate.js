@@ -64,5 +64,17 @@ var U = exports.utils = {
 
   args: function(args, n) {
     return Array.prototype.slice.call(args, n || 0);
+  },
+
+  json: function(what) {
+    if (typeof what === 'string') {
+      return JSON.parse(what);
+    }
+    else {
+      return JSON.stringify(what);
+    }
   }
 };
+
+U.json.parse = JSON.parse;
+U.json.stringify = JSON.stringify;
