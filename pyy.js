@@ -41,6 +41,8 @@ var U = exports.utils = {
     }
   },
 
+  // returns a copy of the collection with
+  // elements of func(value)
   map: function(obj, func, context) {
     context = context || null;
     var ret;
@@ -52,6 +54,8 @@ var U = exports.utils = {
     return ret;
   },
 
+  // returns a copy of the collection with
+  // elements that do not match the predicate removed
   filter: function(obj, func, context) {
     context = context || null;
     var ret;
@@ -65,6 +69,8 @@ var U = exports.utils = {
     return ret;
   },
 
+  // returns a copy of the collection with
+  // elements that match the predicate removed
   remove: function(obj, func, context) {
     context = context || null;
     return U.filter(obj, function(v, k) {
@@ -91,11 +97,73 @@ var U = exports.utils = {
     else {
       return JSON.stringify(what);
     }
+  },
+
+  values: function(obj) {
+    var values = [];
+    U.foreach(obj, function(v, k) {
+      values.push(v);
+    });
+    return values;
+  },
+
+  keys: function(obj) {
+    var keys = [];
+    U.foreach(obj, function(v, k) {
+      keys.push(k);
+    });
+    return keys;
   }
+
+  // TODO
+  // ----
+  // make a simple event class
+
 };
 
 U.json.parse = JSON.parse;
 U.json.stringify = JSON.stringify;
+
+})(pyy);
+
+(function(exports) {
+
+var event = function() {
+
+  var listeners = [];
+
+  var fire = function() {
+    var args = U.args(arguments);
+    U.foreach(listeners, function(sub) {
+      var a = sub.args.concat(args);
+      sub.apply(sub.context, a);
+    });
+  }
+
+  fire.subscribe = function(callback, context) {
+    listeners.push({
+      callback: callback,
+      context: context,
+      args: U.args(arguments, 2)
+    });
+  };
+
+  fire.unsubscribe = function(callback, context) {
+    listeners = U.remove(listeners, function(sub) {
+      return (sub.callback == callback) &&
+        (sub.context == context);
+    });
+  };
+
+  fire.length = function() {
+    return listeners.length;
+  }
+
+  return fire;
+
+};
+
+exports.utils.event = event;
 
 })(pyy);
 
@@ -167,6 +235,16 @@ var H = exports.html = {
     });
   },
 
+  // TODO
+  // ----
+  // show
+  // hide
+  // add_class
+  // remove_class
+  // set_class
+  //
+  // add all the above to the wrapper
+
   update: function(dom) {
     var context = dom;
 
@@ -212,7 +290,7 @@ var H = exports.html = {
             // add a class
             if (!value) { continue; }
             var classes = value.split(/\s+/);
-            classes = clases.concat(dom.getAttribute('class').split(/\s+/));
+            classes = classes.concat(dom.getAttribute('class').split(/\s+/));
             document.setAttribute('class', classes.join(' '));
           } else if (key === 'style') {
             // style: {background: '#000'}

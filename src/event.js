@@ -1,7 +1,7 @@
 
 var event = function() {
 
-  var listeners = []
+  var listeners = [];
 
   var fire = function() {
     var args = U.args(arguments);
@@ -20,10 +20,10 @@ var event = function() {
   };
 
   fire.unsubscribe = function(callback, context) {
-    listeners = U.remove(listeners, function(sub)) {
+    listeners = U.remove(listeners, function(sub) {
       return (sub.callback == callback) &&
         (sub.context == context);
-    }
+    });
   };
 
   fire.length = function() {
