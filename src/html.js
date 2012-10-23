@@ -65,6 +65,16 @@ var H = exports.html = {
     });
   },
 
+  // TODO
+  // ----
+  // show
+  // hide
+  // add_class
+  // remove_class
+  // set_class
+  //
+  // add all the above to the wrapper
+
   update: function(dom) {
     var context = dom;
 
@@ -110,7 +120,7 @@ var H = exports.html = {
             // add a class
             if (!value) { continue; }
             var classes = value.split(/\s+/);
-            classes = clases.concat(dom.getAttribute('class').split(/\s+/));
+            classes = classes.concat(dom.getAttribute('class').split(/\s+/));
             document.setAttribute('class', classes.join(' '));
           } else if (key === 'style') {
             // style: {background: '#000'}

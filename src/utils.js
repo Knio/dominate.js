@@ -23,6 +23,8 @@ var U = exports.utils = {
     }
   },
 
+  // returns a copy of the collection with
+  // elements of func(value)
   map: function(obj, func, context) {
     context = context || null;
     var ret;
@@ -34,6 +36,8 @@ var U = exports.utils = {
     return ret;
   },
 
+  // returns a copy of the collection with
+  // elements that do not match the predicate removed
   filter: function(obj, func, context) {
     context = context || null;
     var ret;
@@ -47,6 +51,8 @@ var U = exports.utils = {
     return ret;
   },
 
+  // returns a copy of the collection with
+  // elements that match the predicate removed
   remove: function(obj, func, context) {
     context = context || null;
     return U.filter(obj, function(v, k) {
@@ -73,7 +79,28 @@ var U = exports.utils = {
     else {
       return JSON.stringify(what);
     }
+  },
+
+  values: function(obj) {
+    var values = [];
+    U.foreach(obj, function(v, k) {
+      values.push(v);
+    });
+    return values;
+  },
+
+  keys: function(obj) {
+    var keys = [];
+    U.foreach(obj, function(v, k) {
+      keys.push(k);
+    });
+    return keys;
   }
+
+  // TODO
+  // ----
+  // make a simple event class
+
 };
 
 U.json.parse = JSON.parse;

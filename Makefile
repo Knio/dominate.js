@@ -4,6 +4,7 @@ all: pyy.js pyy.min.js
 pyy.js: \
 	src/pyy.js \
 	build/utils.js \
+	build/event.js \
 	build/html.js \
 	build/tags.js \
 	build/io.js \
