@@ -9,7 +9,7 @@ var event = function() {
       var a = sub.args.concat(args);
       sub.apply(sub.context, a);
     });
-  }
+  };
 
   fire.subscribe = function(callback, context) {
     listeners.push({
@@ -28,7 +28,7 @@ var event = function() {
 
   fire.length = function() {
     return listeners.length;
-  }
+  };
 
   return fire;
 

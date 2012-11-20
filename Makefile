@@ -21,7 +21,6 @@ pyy.js:
 	java -jar lib/compiler.jar --js $< > $@
 
 
-# sudo easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
 build/%.js: src/%.js
 	@cat src/_header.js > $@
 	cat $< >> $@
@@ -38,3 +37,7 @@ clean:
 
 .PHONY: clean
 .DELETE_ON_ERROR:
+
+depends:
+	sudo easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
+	sudo apt-get install openjdk-7-jdk

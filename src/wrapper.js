@@ -9,7 +9,7 @@ var W = exports.wrap = function wrap(dom) {
         var args = [dom].concat(U.args(arguments));
         H.update.apply(this, args);
         return wrapper;
-    }
+    };
     wrapper.dom = dom;
 
     // TODO this should be part of a more general
@@ -22,7 +22,7 @@ var W = exports.wrap = function wrap(dom) {
     wrapper.clear = wrapper.empty = function() {
         H.empty(dom);
         return wrapper;
-    }
+    };
 
     var wrapped_create = function(create) {
         return function() {
@@ -77,7 +77,7 @@ var W2 = exports.wrap2 = function wrap(list) {
     list.clear = list.empty = function() {
         U.foreach(list, H.empty);
         return list;
-    }
+    };
 
     // TODO events
     return list;

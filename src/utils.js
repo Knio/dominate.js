@@ -40,6 +40,7 @@ var U = exports.utils = {
   // elements that do not match the predicate removed
   filter: function(obj, func, context) {
     context = context || null;
+    func = func || function(x) { return !!x; };
     var ret;
     if (obj instanceof Array) { ret = []; }
     else                      { ret = {}; }

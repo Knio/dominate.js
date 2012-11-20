@@ -25,6 +25,6 @@ var B = exports.bind = function bind(obj) {
     listeners = U.remove(listeners, function(cb) {
       return (cb.func === func) && (cb.context === context);
     });
-  }
+  };
   return binding;
 };

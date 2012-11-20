@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="../lib/qunit.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="test">Test</div>
+
+  <script src="../lib/qunit.js"></script>
+  <script src="../pyy.min.js"></script>
+
+  <script>
+    
+    test("pyy", function() {
+        pyy('#test').empty().span('Hello world', {cls:'t', style:{fontSize:'16pt'}});
+
+        ok(document.getElementById('test').innerHTML === '<span class="t" style="font-size: 16pt;">Hello world</span>')
+    });
+  
+  </script>
+
+</body>
+</html>
+

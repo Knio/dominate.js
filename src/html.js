@@ -120,8 +120,8 @@ var H = exports.html = {
             // add a class
             if (!value) { continue; }
             var classes = value.split(/\s+/);
-            classes = classes.concat(dom.getAttribute('class').split(/\s+/));
-            document.setAttribute('class', classes.join(' '));
+            classes = U.filter(classes.concat(dom.className.split(/\s+/)));
+            dom.className = classes.join(' ');
           } else if (key === 'style') {
             // style: {background: '#000'}
             H.css(dom, value);
@@ -137,7 +137,7 @@ var H = exports.html = {
               if (args.length !== 0) {
                 f = function() {
                   value.func.apply(ctx, args.concat(U.args(arguments)));
-                }
+                };
               } else {
                 f = value.func;
               }
