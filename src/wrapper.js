@@ -5,6 +5,9 @@ var H = exports.html;
 
 // wrap a single DOM element with pyy functions
 var W = exports.wrap = function wrap(dom) {
+
+
+    // Calling the wrapped object calls D.update
     var wrapper = function() {
         var args = [dom].concat(U.args(arguments));
         H.update.apply(this, args);
@@ -18,12 +21,14 @@ var W = exports.wrap = function wrap(dom) {
         H.css(dom, css);
         return wrapper;
     };
-
+    // TODO same here
     wrapper.clear = wrapper.empty = function() {
         H.empty(dom);
         return wrapper;
     };
 
+
+    // add all tag constructors
     var wrapped_create = function(create) {
         return function() {
             var node = create.apply(this, U.args(arguments));

@@ -5,64 +5,37 @@
 // - api functions
 // - api(tag, ...) functions that can be wrapped
 
+
 var U = exports.utils;
+
+var css2js = function(name) {
+  var upper = function(_, letter) { return letter.toUpperCase(); };
+  return name.replace(/(?:-|_)(.)/g, upper);
+};
+
+var css2js_obj = function(obj) {
+  var js = {};
+  U.foreach(obj, function(v, k) { js[css2js(k)] = v; });
+  return js;
+};  
+
+
 var H = exports.html = {
 
-  empty: function(obj) {
-    obj.innerHTML = '';
-    return obj;
+  empty: function(dom) {
+    dom.innerHTML = '';
+    return dom;
   },
-  // *****
+  
 
-  is_node: function(obj) {
-    try       { return (obj instanceof Node); }
-    catch (e) { return obj && obj.nodeType; }
-  },
-
-  css2js: function(name) {
-    var upper = function(_, letter) { return letter.toUpperCase(); };
-    return name.replace(/(?:-|_)(.)/g, upper);
-  },
-
-  css2js_obj: function(obj) {
-    var js = {};
-    U.foreach(obj, function(v, k) { js[H.css2js(k)] = v; });
-    return js;
-  },
-  /**
-   * Create an HTML tag method.
-   *
-   * @param {tag} HTML tag name.
-   * @return {node} Function for creating corresponding DOM element.
-   */
-  create: function(tag) {
-    var self = this;
-    return function() {
-      var element = document.createElement(tag);
-      for (var j = 0; j < arguments.length; j++) {
-        var argument = arguments[j];
-        self.update(element, argument);
-      }
-      return element;
-    };
-  },
-
-  /**
-   * Create a DOM text node.
-   *
-   * @param {text} Text contents.
-   * @return {node} DOM element.
-   */
-  text: function(text) {
-    return document.createTextNode('' + text);
-  },
 
   css: function(dom) {
     U.foreach(U.args(arguments, 1), function(css) {
       U.foreach(css, function(val, key) {
-        dom.style[H.css2js(key)] = val;
+        dom.style[css2js(key)] = val;
       });
     });
+    return dom;
   },
 
   // TODO
@@ -82,7 +55,7 @@ var H = exports.html = {
       var argument = arguments[j];
 
       var i, key;
-      if (H.is_node(argument)) {
+      if (U.is_node(argument)) {
         // child node
         dom.appendChild(argument);
       } else if (typeof argument === 'string' || typeof argument === 'number') {
@@ -94,12 +67,13 @@ var H = exports.html = {
           H.update(dom, argument[i]);
         }
       } else if (typeof argument === 'function') {
-          if (argument.hasOwnProperty('dom')) {
+          if (argument.hasOwnProperty('dom') && U.is_node(argument.dom)) {
             // is a pyy.wrap()ed node. add it like a child
             dom.appendChild(argument.dom);
           }
           else {
             // What do we do here??
+            throw 'Not a DOM node';
           }
       } else {
         // object. update attributes

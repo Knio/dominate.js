@@ -4,6 +4,11 @@ Basic JavaScript utility functions
 
 var U = exports.utils = {
 
+  is_node: function(obj) {
+    try       { return (obj instanceof Node); }
+    catch (e) { return obj && obj.nodeType; }
+  },
+
   foreach: function(obj, func, context) {
     context = context || null;
     var r;

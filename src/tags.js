@@ -16,8 +16,28 @@ var U = exports.utils;
 var H = exports.html;
 var T = exports.tags = {};
 
-T.text = H.text;
-U.foreach(tag_names, function(tag) {
-  T[tag] = H.create(tag);
-});
 
+/**
+ * Create a DOM text node.
+ *
+ * @param {text} Text contents.
+ * @return {node} DOM element.
+ */
+T.text = function(text) {
+    return document.createTextNode('' + text);
+};
+
+/**
+ * Create HTML tag methods
+ * @return {node} Function for creating corresponding DOM element.
+ */
+
+U.foreach(tag_names, function(tag) {
+  T[tag] = function() {
+    var element = document.createElement(tag);
+    H.update.apply(this, [element].concat(U.args(arguments)));
+    return element;
+    // TODO
+    // could return wrapped element here, if wrapper gets good.
+  };
+});
