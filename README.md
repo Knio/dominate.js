@@ -7,7 +7,7 @@ verbose method calls.
 Example Usage
 -------------
 
-`pyy.js` implements functions for each HTML tag name. For example, the `div` function creates a `<div>` element. Creating a simple element:
+`pyy.js` implements functions for each HTML tag name. For example, calling the `div` function creates and returns a `<div>` element:
 
     document.body.appendChild(
         div('Hello World!')
@@ -34,7 +34,7 @@ Element arguments will be added as children to the created element. This allows 
         )
     );
 
-Object arguments set attributes on the elements:
+Object arguments set attributes on the html element:
 
     document.body.appendChild(
         div({id:'links'},
@@ -54,7 +54,7 @@ An example button showing these properties:
 
     document.body.appendChild(
         div('Button1', {
-            cls:'button', 
+            cls: 'button', 
             style: {border: '1px solid #000', backgroundColor: '#ccc', 'border-radius': '3px'},
             onclick: function(e) {
                 alert(this + ' was clicked!');
@@ -62,6 +62,7 @@ An example button showing these properties:
             context: 'Button1'
         })
     );
+
 
 
 Building
