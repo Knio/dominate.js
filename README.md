@@ -4,21 +4,74 @@ verbose method calls.
 
 
 
-Usage
------
+Example Usage
+-------------
 
-Coming soon...
+`pyy.js` implements functions for each HTML tag name. For example, the `div` function creates a `<div>` element. Creating a simple element:
 
+    document.body.appendChild(
+        div('Hello World!')
+    );
+
+
+Tag functions accept many different arguments: strings, DOM elements, and objects.
+
+Strings will be added as TextNodes to the element. These strings do not need to be escaped, for example:
+
+    document.body.appendChild(
+        div('I am a <div>')
+    ); 
+
+Works as expected.
+
+
+Element arguments will be added as children to the created element. This allows you to nest pyy calls to create more complicated widgets:
+
+    document.body.appendChild( 
+        div(
+            h1('Hello World'), 
+            span('Lorem Ipsum..')
+        )
+    );
+
+Object arguments set attributes on the elements:
+
+    document.body.appendChild(
+        div({id:'links'},
+            a({href: "https://github.com/Knio/pyy.js"}, 'Click here!')
+        )
+    );
+
+
+Some keys have special meanings in pyy:
+
+* `cls` - same as 'class', to avoid the javascript reserved word
+* `style` - an object containing CSS declarations. Style names can be written as both `fontSize` and `font-size`
+* `on*` - event handler function. 
+* `context` - the context to use when calling event handlers
+
+An example button showing these properties:
+
+    document.body.appendChild(
+        div('Button1', {
+            cls:'button', 
+            style: {border: '1px solid #000', backgroundColor: '#ccc', 'border-radius': '3px'},
+            onclick: function(e) {
+                alert(this + ' was clicked!');
+            },
+            context: 'Button1'
+        })
+    );
 
 
 Building
 --------
 
-The library is built using `GNU Make`, a custom script which performs all of the
-build operations. You must have [Python][2], [Google Closure Lint][3], and
+The library is built using `GNU Make`. 
+You must have [Python][2], [Google Closure Lint][3], and
 [Java][4] installed and accessible on your path.
 
-Once built, the assembled library will be created in `/pyy.js` and `pyy.min.js`
+Once built, the assembled library will be created in `/pyy.js` and `/pyy.min.js`
 
 
 Developed By
