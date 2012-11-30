@@ -195,6 +195,9 @@ var css2js_obj = function(obj) {
   return js;
 };  
 
+var is_event_name = function(name) {
+  return /^on/.test(name);
+};
 
 var H = exports.html = {
 
@@ -275,7 +278,7 @@ var H = exports.html = {
           } else if (key === 'style') {
             // style: {background: '#000'}
             H.css(dom, value);
-          } else if (key.slice(0, 2) === 'on') {
+          } else if (is_event_name(key)) {
             // an event handler
             var type = key.slice(2);
             var f = value, args = [], ctx = context, capture = false;
@@ -374,7 +377,7 @@ var I = exports.io = {
   },
 
   post: function(url, data, func, context) {
-    I.xhr('GET', url, data, func, context);
+    I.xhr('POST', url, data, func, context);
   }
 
 };

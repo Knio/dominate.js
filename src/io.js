@@ -18,7 +18,7 @@ var I = exports.io = {
   },
 
   post: function(url, data, func, context) {
-    I.xhr('GET', url, data, func, context);
+    I.xhr('POST', url, data, func, context);
   }
 
 };
