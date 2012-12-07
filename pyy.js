@@ -378,6 +378,14 @@ var I = exports.io = {
 
   post: function(url, data, func, context) {
     I.xhr('POST', url, data, func, context);
+  },
+
+  form: function(data) {
+    var formdata = new FormData();
+    U.foreach(data, function(v, k) {
+      formdata.append(k, v);
+    });  
+    return formdata;
   }
 
 };
@@ -517,6 +525,7 @@ var W2 = exports.wrap2 = function wrap(list) {
 window.P = pyy;
 window.U = pyy.utils;
 window.H = pyy.html;
+window.I = pyy.io;
 
 U.mix(window, pyy.tags);
 

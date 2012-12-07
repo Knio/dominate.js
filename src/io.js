@@ -21,6 +21,14 @@ var I = exports.io = {
 
   post: function(url, data, func, context) {
     I.xhr('POST', url, data, func, context);
+  },
+
+  form: function(data) {
+    var formdata = new FormData();
+    U.foreach(data, function(v, k) {
+      formdata.append(k, v);
+    });  
+    return formdata;
   }
 
 };
