@@ -8,7 +8,9 @@ var I = exports.io = {
     var request = new XMLHttpRequest();
     request.open(method, url, true);
     request.addEventListener('readystatechange', function(e) {
-      func.call(context, request.responseText, request, e);
+      if (request.readyState === 4) {
+        func.call(context, request.responseText, request, e);
+      }
     });
     request.send(data);
   },
