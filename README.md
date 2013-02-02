@@ -3,6 +3,17 @@ of HTML elements in code without the need for either a templating language or
 verbose method calls.
 
 
+Installation
+------------
+
+Download the latest build here:
+
+* <http://pyy.zkpq.ca/pyy.min.js>
+
+Or include it directly on your page:
+
+    <script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
+
 
 Example Usage
 -------------
@@ -20,16 +31,16 @@ Strings will be added as TextNodes to the element. These strings do not need to 
 
     document.body.appendChild(
         div('I am a <div>')
-    ); 
+    );
 
 Works as expected.
 
 
 Element arguments will be added as children to the created element. This allows you to nest pyy calls to create more complicated widgets:
 
-    document.body.appendChild( 
+    document.body.appendChild(
         div(
-            h1('Hello World'), 
+            h1('Hello World'),
             span('Lorem Ipsum..')
         )
     );
@@ -47,14 +58,14 @@ Some keys have special meanings in pyy:
 
 * `cls` - same as 'class', to avoid the javascript reserved word
 * `style` - an object containing CSS declarations. Style names can be written as both `fontSize` and `font-size`
-* `on*` - event handler function. 
+* `on*` - event handler function.
 * `context` - the context to use when calling event handlers
 
 An example button showing these properties:
 
     document.body.appendChild(
         div('Button1', {
-            cls: 'button', 
+            cls: 'button',
             style: {border: '1px solid #000', backgroundColor: '#ccc', 'border-radius': '3px'},
             onclick: function(e) {
                 alert(this + ' was clicked!');
@@ -68,7 +79,7 @@ An example button showing these properties:
 Building
 --------
 
-The library is built using `GNU Make`. 
+The library is built using `GNU Make`.
 You must have [Python][2], [Google Closure Lint][3], and
 [Java][4] installed and accessible on your path.
 
