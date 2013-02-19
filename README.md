@@ -12,46 +12,66 @@ Download the latest build here:
 
 Or include it directly on your page:
 
-    <script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
-
+```html
+<script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
+```
 
 Example Usage
 -------------
 
+<script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
+
 `pyy.js` implements functions for each HTML tag name. For example, calling the `div` function creates and returns a `<div>` element:
 
-    document.body.appendChild(
-        div('Hello World!')
-    );
+```javascript
+document.body.appendChild(
+    div('Hello World!')
+);
+```
+
+<script type="text/javascript">
+document.body.appendChild(
+    div('Hello World!')
+);
+</script>
 
 
 Tag functions accept many different arguments: strings, DOM elements, and objects.
 
 Strings will be added as TextNodes to the element. These strings do not need to be escaped, for example:
 
-    document.body.appendChild(
-        div('I am a <div>')
-    );
+```javascript
+document.body.appendChild(
+    div('I am a <div>')
+);
+```
+
+
+
 
 Works as expected.
 
 
 Element arguments will be added as children to the created element. This allows you to nest pyy calls to create more complicated widgets:
 
-    document.body.appendChild(
-        div(
-            h1('Hello World'),
-            span('Lorem Ipsum..')
-        )
-    );
+```javascript
+document.body.appendChild(
+    div(
+        h1('Hello World'),
+        span('Lorem Ipsum..')
+    )
+);
+```
 
 Object arguments set attributes on the html element:
 
-    document.body.appendChild(
-        div({id:'links'},
-            a({href: "https://github.com/Knio/pyy.js"}, 'Click here!')
-        )
-    );
+```javascript
+document.body.appendChild(
+    div({id:'links'},
+        a({href: "https://github.com/Knio/pyy.js"}, 'Click here!')
+    )
+);
+```
 
 
 Some keys have special meanings in pyy:
@@ -63,16 +83,18 @@ Some keys have special meanings in pyy:
 
 An example button showing these properties:
 
-    document.body.appendChild(
-        div('Button1', {
-            cls: 'button',
-            style: {border: '1px solid #000', backgroundColor: '#ccc', 'border-radius': '3px'},
-            onclick: function(e) {
-                alert(this + ' was clicked!');
-            },
-            context: 'Button1'
-        })
-    );
+```javascript
+document.body.appendChild(
+    div('Button1', {
+        cls: 'button',
+        style: {border: '1px solid #000', backgroundColor: '#ccc', 'border-radius': '3px'},
+        onclick: function(e) {
+            alert(this + ' was clicked!');
+        },
+        context: 'Button1'
+    })
+);
+```
 
 
 
