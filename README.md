@@ -29,13 +29,6 @@ document.body.appendChild(
 );
 ```
 
-<script type="text/javascript">
-document.body.appendChild(
-    div('Hello World!')
-);
-</script>
-
-
 Tag functions accept many different arguments: strings, DOM elements, and objects.
 
 Strings will be added as TextNodes to the element. These strings do not need to be escaped, for example:
@@ -45,9 +38,6 @@ document.body.appendChild(
     div('I am a <div>')
 );
 ```
-
-
-
 
 Works as expected.
 

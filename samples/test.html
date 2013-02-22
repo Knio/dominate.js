@@ -39,6 +39,13 @@
       b.h1("Title");
       b.div({id:'mydiv'}).p().css({color:'red'}).text("Lorem Ipsum..");
 
+
+      // events
+      var e = U.event();
+      U.listen(e, {test_event: function() { console.log(U.args(arguments)); }});
+      e('test_event', [1,2,3]);
+
+
     </script>
   </body>
 </html>
