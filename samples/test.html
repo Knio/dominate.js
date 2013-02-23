@@ -42,6 +42,9 @@
       // events
       var e = U.event();
       U.listen(e, {test_event: function() { console.log(U.args(arguments)); }});
+      if (!e.len() == 1) {
+        alert('Error!')
+      }
       e('test_event', [1,2,3]);
 
       // dom events
@@ -62,6 +65,15 @@
           alert(this + " was clicked with args:" + U.args(arguments));
         }, context: "DIV", args:[1,2,3]}
       }));
+
+      // string formatting
+      body.appendChild(div(
+        div(U.format("Hi there!")),
+        div(U.format("%s %s!", 'Hello', 'world')),
+        div(U.format("%(a)s %(b)s!", {a:'Hello', b:'world'})),
+        div(pre(U.format("%10s %-10s %d %010d %10.3f", 'A', 'B', 1, 2, Math.PI))),
+        div(U.format("%.2f", Math.PI))
+      ));
 
     </script>
   </body>

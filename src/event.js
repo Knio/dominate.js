@@ -26,7 +26,7 @@ var event = function() {
     });
   };
 
-  fire.length = function() {
+  fire.len = function() {
     return listeners.length;
   };
 
