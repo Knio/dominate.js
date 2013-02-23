@@ -39,12 +39,29 @@
       b.h1("Title");
       b.div({id:'mydiv'}).p().css({color:'red'}).text("Lorem Ipsum..");
 
-
       // events
       var e = U.event();
       U.listen(e, {test_event: function() { console.log(U.args(arguments)); }});
       e('test_event', [1,2,3]);
 
+      // dom events
+      body.appendChild(div('Click me!', {
+        onclick: function() {
+          alert(this + " was clicked");
+        }, context: "DIV"
+      }));
+
+      body.appendChild(div('Click me!', {
+        onclick: function() {
+          alert(this + " was clicked");
+        }
+      }));
+
+      body.appendChild(div('Click me!', {
+        onclick: {func:function() {
+          alert(this + " was clicked with args:" + U.args(arguments));
+        }, context: "DIV", args:[1,2,3]}
+      }));
 
     </script>
   </body>

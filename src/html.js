@@ -17,7 +17,7 @@ var css2js_obj = function(obj) {
   var js = {};
   U.foreach(obj, function(v, k) { js[css2js(k)] = v; });
   return js;
-};  
+};
 
 var is_event_name = function(name) {
   return /^on/.test(name);
@@ -29,7 +29,7 @@ var H = exports.html = {
     dom.innerHTML = '';
     return dom;
   },
-  
+
   css: function(dom) {
     U.foreach(U.args(arguments, 1), function(css) {
       U.foreach(css, function(val, key) {
@@ -109,13 +109,19 @@ var H = exports.html = {
               args    = value.args    || args;
               ctx     = value.context || ctx;
               capture = value.capture || capture;
-              if (args.length !== 0) {
-                f = function() {
-                  value.func.apply(ctx, args.concat(U.args(arguments)));
-                };
-              } else {
-                f = value.func;
-              }
+            }
+            var wargs = (args.length !== 0);
+            var wctx = (ctx !== dom);
+            if (wargs) {
+              var _f = f;
+              f = function() {
+                _f.apply(ctx, args.concat(U.args(arguments)));
+              };
+            } else if (wctx) {
+              var _f = f;
+              f = function() {
+                _f.apply(ctx, arguments);
+              };
             }
             dom.addEventListener(type, f, capture);
           } else {
