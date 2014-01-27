@@ -27,7 +27,6 @@ var H = exports.html = {
 
   empty: function(dom) {
     dom.innerHTML = '';
-    return dom;
   },
 
   css: function(dom) {
@@ -36,17 +35,34 @@ var H = exports.html = {
         dom.style[css2js(key)] = val;
       });
     });
-    return dom;
+  },
+
+  get_classes: function(dom) {
+    return dom.className.split(/\s/);
+  },
+
+  add_class: function(dom) {
+    var classes = H.get_classes(dom);
+    classes.push.apply(classes, U.args(arguments, 1));
+    dom.className = classes.join(' ');
+  },
+
+  remove_class: function(dom) {
+    var classes = H.get_classes(dom);
+    var remove = {};
+    U.foreach(U.args(arguments, 1), function(x) { remove[x] = 1; });
+    classes = U.filter(classes, function(x) { return remove[x] !== 1; });
+    dom.className = classes.join(' ');
+  },
+
+  'class': function(dom) {
+    dom.className = U.args(arguments, 1).join(' ');
   },
 
   // TODO
   // ----
   // show
   // hide
-  // add_class
-  // remove_class
-  // set_class
-  //
   // add all the above to the wrapper
 
   update: function(dom) {
@@ -131,6 +147,5 @@ var H = exports.html = {
         }
       }
     }
-    return dom;
   }
 };

@@ -15,28 +15,22 @@ var W = exports.wrap = function wrap(dom) {
     };
     wrapper.dom = dom;
 
-    // TODO this should be part of a more general
-    // wrapper that does all html functions
-    wrapper.css = function(css) {
-        H.css(dom, css);
-        return wrapper;
-    };
-    // TODO same here
-    wrapper.clear = wrapper.empty = function() {
-        H.empty(dom);
-        return wrapper;
-    };
-
-
-    // add all tag constructors
-    var wrapped_create = function(create) {
+    // add all html functions
+    var wrapped_html = function(fn) {
         return function() {
-            var node = create.apply(this, U.args(arguments));
-            dom.appendChild(node);
-            return W(node);
+            var ret = fn.apply(this, U.args(arguments));
+            if (U.is_node(ret)) {
+                dom.appendChild(ret);
+                return W(ret);
+            }
+            if (ret === undefined) {
+                return this;
+            }
+            return ret;
         }
     };
-    U.mix(wrapper, U.map(exports.tags, wrapped_create));
+    U.mix(wrapper, U.map(exports.tags, wrapped_html));
+    U.mix(wrapper, U.map(exports.html, wrapped_html));
 
     // TODO
     // wrap functions in html and binding for awesomeness.
@@ -59,30 +53,26 @@ var W2 = exports.wrap2 = function wrap(list) {
 
     // TODO we assume the list is of dom elements.
     // What other possibilities are there?
-    U.foreach(exports.tags, function bind(func, name) {
+    var bind = function(fn, name) {
         list[name] = function() {
             var args = U.args(arguments);
             return exports.wrap2(U.map(list, function(dom) {
-                var n = func.apply(this, args);
-                dom.appendChild(n);
-                return n;
+                var args2 = [dom];
+                args2.push.apply(args2, args);
+                var ret = fn.apply(dom, args2);
+                if (U.is_node(ret)) {
+                    dom.appendChild(ret);
+                }
+                if (ret === undefined) {
+                    return dom;
+                }
+                return ret;
             }, this));
         };
-    }, this);
-
-    list.css = function() {
-        var args = [null].concat(U.args(arguments));
-        U.foreach(list, function(dom) {
-            args[0] = dom;
-            H.css.apply(this, args);
-        }, this);
-        return list;
     };
 
-    list.clear = list.empty = function() {
-        U.foreach(list, H.empty);
-        return list;
-    };
+    U.foreach(exports.tags, bind);
+    U.foreach(exports.html, bind);
 
     // TODO events
     return list;
