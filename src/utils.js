@@ -47,13 +47,22 @@ var U = exports.utils = {
     context = context || null;
     func = func || function(x) { return !!x; };
     var ret;
-    if (obj instanceof Array) { ret = []; }
-    else                      { ret = {}; }
-    U.foreach(obj, function(v, k) {
-      if (func.call(context, v, k)) {
-        ret[k] = v;
-      }
-    });
+    if (obj instanceof Array) { 
+      ret = [];
+      U.foreach(obj, function(v, k) {
+        if (func.call(context, v, k)) {
+          ret.push(v);
+        }
+      });    
+    }
+    else { 
+      ret = {};
+      U.foreach(obj, function(v, k) {
+        if (func.call(context, v, k)) {
+          ret[k] = v;
+        }
+      });
+    }
     return ret;
   },
 

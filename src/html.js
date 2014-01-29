@@ -38,7 +38,8 @@ var H = exports.html = {
   },
 
   get_classes: function(dom) {
-    return dom.className.split(/\s/);
+    if (dom.className === '') { return []; }
+    return dom.className.split(/\s+/);
   },
 
   add_class: function(dom) {
