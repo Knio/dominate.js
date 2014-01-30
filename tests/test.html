@@ -65,7 +65,7 @@
 
     test("one click", function() {
       expect(0);
-      var r = one('#test').click(function(e){
+      var r = one('#test').onclick(function(e){
         alert(this);
         this.p('Hello');
       });
@@ -76,9 +76,10 @@
       var t = one('body').div({id:'test_all'});
       t.p('One');
       t.p('Two');
-      all('#test_all p').click(function(e) {
+      all('#test_all p').onclick(function(e) {
         alert(this);
         this(this.dom.innerHTML);
+        return false;
       });
     });
 

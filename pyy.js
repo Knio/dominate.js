@@ -539,7 +539,6 @@ var U = exports.utils;
 var H = exports.html;
 
 var dom_events = [
-  'click',
   'onkeydown',
   'onkeypress',
   'onkeyup',
@@ -599,16 +598,20 @@ var wrap = exports.wrap = function wrap(dom) {
 
   wrapper.on = function(name, fn, context, capture) {
     capture = capture || false;
-    dom.addEventListener(name, function(e) {
-      var ctx = context || wrap(dom);
-      fn.call(ctx, e);
-    }, capture);
+    var listener = function(e) {
+      var ctx = context || wrap(this);
+      var ret = fn.call(ctx, e, listener);
+      if (ret === false) {
+        dom.removeEventListener(name, listener, capture);
+      }
+    };
+    dom.addEventListener(name, listener, capture);
     return wrapper;
   };
 
   var wrap_event = function(name) {
     wrapper[name] = function(fn, context, capture) {
-      return wrapper.on(name, fn, context, capture);
+      return wrapper.on(name.slice(2), fn, context, capture);
     };
   };
 
@@ -667,17 +670,21 @@ var wrap_list = exports.wrap_list = function wrap_list(list) {
 
   var wrap_event = function(name) {
     list[name] = function(fn, context, capture) {
-      return list.on.call(null, name, fn, context, capture);
+      return list.on(name.slice(2), fn, context, capture);
     };
   };
 
   list.on = function(name, fn, context, capture) {
     capture = capture || false;
     U.foreach(list, function(dom, i) {
-        dom.addEventListener(name, function(e) {
-            var ctx = context || wrap(this);
-            fn.call(ctx, e);
-        }, capture);
+      var listener = function(e) {
+        var ctx = context || wrap(this);
+        var ret = fn.call(ctx, e, listener);
+        if (ret === false) {
+          dom.removeEventListener(name, listener, capture);
+        }
+      };
+      dom.addEventListener(name, listener, capture);
     });
     return list;
   };
