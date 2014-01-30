@@ -13,19 +13,75 @@
   <script src="../pyy.min.js"></script>
 
   <script>
-    
-    
+    var test_node = document.getElementById('test');
+
 
     test("pyy1", function(){
       ok(div(h1('Hello World')).innerHTML === '<h1>Hello World</h1>');
     });
-    
-    test("pyy2", function() {
-      pyy('#test').empty().span('Hello world', {cls:'t', style:{fontSize:'16pt'}});
-    
-      ok(document.getElementById('test').innerHTML === '<span class="t" style="font-size: 16pt;">Hello world</span>')
+
+    test("one", function() {
+      var b = one('#test');
+      ok(b.dom === test_node);
     });
-  
+    test("all", function() {
+      var a = all('#test');
+      ok(a.length === 1);
+      ok(a[0] === test_node);
+    });
+    test("one add", function() {
+      one('#test').empty().update('Test').p('1');
+      strictEqual(test_node.innerHTML, 'Test<p>1</p>');
+    });
+    test("one clear", function() {
+      one('#test').empty();
+      ok(test_node.innerHTML === '');
+    });
+    test("one class", function() {
+      deepEqual(one('#test').get_classes(), []);
+      one('#test').add_class('foo');
+      console.log('"' + test_node.className + '"');
+      ok(test_node.className === 'foo');
+      one('#test').add_class('bar', 'baz');
+      ok(test_node.className === 'foo bar baz');
+      deepEqual(one('#test').get_classes(), ['foo', 'bar', 'baz']);
+      one('#test').remove_class('foo');
+      console.log('"' + test_node.className + '"');
+      strictEqual(test_node.className, 'bar baz');
+      one('#test').remove_class('foo');
+      ok(test_node.className === 'bar baz');
+      one('#test').remove_class('bar', 'baz');
+      ok(test_node.className === '');
+    });
+    test("list", function() {
+      deepEqual(all('#test'), [test_node]);
+    });
+    test("list add", function() {
+      one('#test').empty();
+      var b = all('#test').p({id: 'test_p'}, '1');
+      strictEqual(test_node.innerHTML, '<p id="test_p">1</p>')
+      deepEqual(b, [document.getElementById('test_p')]);
+    });
+
+    test("one click", function() {
+      expect(0);
+      var r = one('#test').click(function(e){
+        alert(this);
+        this.p('Hello');
+      });
+    });
+
+    test("all click", function() {
+      expect(0);
+      var t = one('body').div({id:'test_all'});
+      t.p('One');
+      t.p('Two');
+      all('#test_all p').click(function(e) {
+        alert(this);
+        this(this.dom.innerHTML);
+      });
+    });
+
   </script>
 
 </body>

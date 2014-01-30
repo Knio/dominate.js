@@ -1,89 +1,156 @@
-// TODO this module is unfinished and untested
 
 var U = exports.utils;
 var H = exports.html;
 
+var dom_events = [
+  'onkeydown',
+  'onkeypress',
+  'onkeyup',
+  'onhelp',
+  'onmousedown',
+  'onmousemove',
+  'onmouseup',
+  'onmouseout',
+  'onclick',
+  'ondblclick',
+  'onfocus',
+  'onblur',
+  'onabort',
+  'onerror',
+  'onchange',
+  'onload',
+  'onselect',
+  'onsubmit'
+];
+
 // wrap a single DOM element with pyy functions
-var W = exports.wrap = function wrap(dom) {
+var wrap = exports.wrap = function wrap(dom) {
 
 
-    // Calling the wrapped object calls D.update
-    var wrapper = function() {
-        var args = [dom].concat(U.args(arguments));
-        H.update.apply(this, args);
-        return wrapper;
-    };
-    wrapper.dom = dom;
-
-    // TODO this should be part of a more general
-    // wrapper that does all html functions
-    wrapper.css = function(css) {
-        H.css(dom, css);
-        return wrapper;
-    };
-    // TODO same here
-    wrapper.clear = wrapper.empty = function() {
-        H.empty(dom);
-        return wrapper;
-    };
-
-
-    // add all tag constructors
-    var wrapped_create = function(create) {
-        return function() {
-            var node = create.apply(this, U.args(arguments));
-            dom.appendChild(node);
-            return W(node);
-        }
-    };
-    U.mix(wrapper, U.map(exports.tags, wrapped_create));
-
-    // TODO
-    // wrap functions in html and binding for awesomeness.
-    // ideas:
-    /*
-    var name = bind("Foo");
-    body.div("name:").span(name);
-
-    name("Bar"); // updates div
-
-    */
-
-
+  // Calling the wrapped object calls D.update
+  var wrapper = function() {
+    var args = [dom].concat(U.args(arguments));
+    H.update.apply(dom, args);
     return wrapper;
+  };
+  wrapper.dom = dom;
+
+  // add all html functions
+  var wrap_html = function(fn, name) {
+    return function() {
+      var args = U.args(arguments);
+      args.unshift(dom);
+      var ret = fn.apply(null, args);
+      if (ret !== undefined) {
+        if (U.is_node(ret)) {
+          return wrap(ret);
+        }
+        return ret;
+      }
+      return wrapper;
+    }
+  };
+
+  // add all tags
+  var wrap_tag = function(fn, name) {
+    return function() {
+      var node = fn.apply(null, U.args(arguments));
+      dom.appendChild(node);
+      return wrap(node);
+    };
+  };
+
+  wrapper.on = function(name, fn, context, capture) {
+    capture = capture || false;
+    dom.addEventListener(name, function(e) {
+      var ctx = context || wrap(dom);
+      fn.call(ctx, e);
+    }, capture);
+    return wrapper;
+  };
+
+  var wrap_event = function(name) {
+    wrapper[name] = function(fn, context, capture) {
+      return wrapper.on(name, fn, context, capture);
+    };
+  };
+
+  U.mix(wrapper, U.map(exports.tags, wrap_tag));
+  U.mix(wrapper, U.map(exports.html, wrap_html));
+
+  U.foreach(dom_events, wrap_event);
+
+  // TODO
+  // wrap functions in html and binding for awesomeness.
+  // ideas:
+  /*
+  var name = bind("Foo");
+  body.div("name:").span(name);
+
+  name("Bar"); // updates div
+
+  */
+
+
+  return wrapper;
 };
 
 
 // wrap a list of DOM elements with pyy tag functions
-var W2 = exports.wrap2 = function wrap(list) {
+var wrap_list = exports.wrap_list = function wrap_list(list) {
 
-    // TODO we assume the list is of dom elements.
-    // What other possibilities are there?
-    U.foreach(exports.tags, function bind(func, name) {
-        list[name] = function() {
-            var args = U.args(arguments);
-            return exports.wrap2(U.map(list, function(dom) {
-                var n = func.apply(this, args);
-                dom.appendChild(n);
-                return n;
-            }, this));
-        };
-    }, this);
+  // TODO we assume the list is of dom elements.
+  // What other possibilities are there?
 
-    list.css = function() {
-        var args = [null].concat(U.args(arguments));
-        U.foreach(list, function(dom) {
-            args[0] = dom;
-            H.css.apply(this, args);
-        }, this);
-        return list;
+  var wrap_tag = function(fn, name) {
+    return function() {
+      var args = U.args(arguments);
+      return wrap_list(U.map(list, function(dom, i) {
+        var node = fn.apply(null, args);
+        dom.appendChild(node);
+        return node;
+      }));
+    }
+  };
+
+  var wrap_html = function(fn, name) {
+    return function() {
+      var args = U.args(arguments);
+      var ret = U.map(list, function(dom, i) {
+        var args2 = args.slice();
+        args2.unshift(dom);
+        return fn.apply(this, args2);
+      });
+      if (U.filter(ret).length !== 0) {
+        return ret;
+      }
+      return list;
     };
+  };
 
-    list.clear = list.empty = function() {
-        U.foreach(list, H.empty);
-        return list;
+  var wrap_event = function(name) {
+    list[name] = function(fn, context, capture) {
+      return list.on.call(null, name, fn, context, capture);
     };
+  };
 
-    // TODO events
+  list.on = function(name, fn, context, capture) {
+    capture = capture || false;
+    U.foreach(list, function(dom, i) {
+        dom.addEventListener(name, function(e) {
+            var ctx = context || wrap(this);
+            fn.call(ctx, e);
+        }, capture);
+    });
     return list;
+  };
+
+  U.mix(list, U.map(exports.tags, wrap_tag));
+  U.mix(list, U.map(exports.html, wrap_html));
+
+  U.foreach(dom_events, wrap_event);
+
+  // TODO events
+
+  return list;
 };

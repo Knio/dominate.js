@@ -53,7 +53,7 @@ var format = function(format) {
           return str;
       }
   });
-}
+};
 
 
 exports.utils.format = format;
