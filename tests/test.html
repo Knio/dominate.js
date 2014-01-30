@@ -14,12 +14,12 @@
 
   <script>
     var test_node = document.getElementById('test');
-    
+
 
     test("pyy1", function(){
       ok(div(h1('Hello World')).innerHTML === '<h1>Hello World</h1>');
     });
-    
+
     test("one", function() {
       var b = one('#test');
       ok(b.dom === test_node);
@@ -61,6 +61,25 @@
       var b = all('#test').p({id: 'test_p'}, '1');
       strictEqual(test_node.innerHTML, '<p id="test_p">1</p>')
       deepEqual(b, [document.getElementById('test_p')]);
+    });
+
+    test("one click", function() {
+      expect(0);
+      var r = one('#test').click(function(e){
+        alert(this);
+        this.p('Hello');
+      });
+    });
+
+    test("all click", function() {
+      expect(0);
+      var t = one('body').div({id:'test_all'});
+      t.p('One');
+      t.p('Two');
+      all('#test_all p').click(function(e) {
+        alert(this);
+        this(this.dom.innerHTML);
+      });
     });
 
   </script>
