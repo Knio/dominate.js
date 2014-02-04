@@ -43,17 +43,15 @@ var H = exports.html = {
   },
 
   add_class: function(dom) {
-    var classes = H.get_classes(dom);
-    classes.push.apply(classes, U.args(arguments, 1));
-    dom.className = classes.join(' ');
+    var classes = U.dict(H.get_classes(dom));
+    U.mix(classes, U.dict(U.args(arguments, 1)));
+    dom.className = U.keys(classes).join(' ');
   },
 
   remove_class: function(dom) {
-    var classes = H.get_classes(dom);
-    var remove = {};
-    U.foreach(U.args(arguments, 1), function(x) { remove[x] = 1; });
-    classes = U.filter(classes, function(x) { return remove[x] !== 1; });
-    dom.className = classes.join(' ');
+    var classes = U.dict(H.get_classes(dom));
+    U.foreach(U.args(arguments, 1), function(cls) { delete classes[cls]; });
+    dom.className = U.keys(classes).join(' ');
   },
 
   'class': function(dom) {

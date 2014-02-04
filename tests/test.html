@@ -40,8 +40,9 @@
     test("one class", function() {
       deepEqual(one('#test').get_classes(), []);
       one('#test').add_class('foo');
+      one('#test').add_class('foo');
       console.log('"' + test_node.className + '"');
-      ok(test_node.className === 'foo');
+      strictEqual(test_node.className, 'foo');
       one('#test').add_class('bar', 'baz');
       ok(test_node.className === 'foo bar baz');
       deepEqual(one('#test').get_classes(), ['foo', 'bar', 'baz']);

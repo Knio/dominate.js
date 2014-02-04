@@ -67,15 +67,15 @@ var U = exports.utils = {
     context = context || null;
     func = func || function(x) { return !!x; };
     var ret;
-    if (obj instanceof Array) { 
+    if (obj instanceof Array) {
       ret = [];
       U.foreach(obj, function(v, k) {
         if (func.call(context, v, k)) {
           ret.push(v);
         }
-      });    
+      });
     }
-    else { 
+    else {
       ret = {};
       U.foreach(obj, function(v, k) {
         if (func.call(context, v, k)) {
@@ -101,6 +101,14 @@ var U = exports.utils = {
       dst[k] = v;
     });
     return dst;
+  },
+
+  dict: function(keys, values) {
+    var obj = {};
+    U.foreach(keys, function(k, i) {
+      obj[k] = i && (values && values[i]);
+    });
+    return obj;
   },
 
   args: function(args, n) {
@@ -304,17 +312,15 @@ var H = exports.html = {
   },
 
   add_class: function(dom) {
-    var classes = H.get_classes(dom);
-    classes.push.apply(classes, U.args(arguments, 1));
-    dom.className = classes.join(' ');
+    var classes = U.dict(H.get_classes(dom));
+    U.mix(classes, U.dict(U.args(arguments, 1)));
+    dom.className = U.keys(classes).join(' ');
   },
 
   remove_class: function(dom) {
-    var classes = H.get_classes(dom);
-    var remove = {};
-    U.foreach(U.args(arguments, 1), function(x) { remove[x] = 1; });
-    classes = U.filter(classes, function(x) { return remove[x] !== 1; });
-    dom.className = classes.join(' ');
+    var classes = U.dict(H.get_classes(dom));
+    U.foreach(U.args(arguments, 1), function(cls) { delete classes[cls]; });
+    dom.className = U.keys(classes).join(' ');
   },
 
   'class': function(dom) {

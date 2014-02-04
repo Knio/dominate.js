@@ -47,15 +47,15 @@ var U = exports.utils = {
     context = context || null;
     func = func || function(x) { return !!x; };
     var ret;
-    if (obj instanceof Array) { 
+    if (obj instanceof Array) {
       ret = [];
       U.foreach(obj, function(v, k) {
         if (func.call(context, v, k)) {
           ret.push(v);
         }
-      });    
+      });
     }
-    else { 
+    else {
       ret = {};
       U.foreach(obj, function(v, k) {
         if (func.call(context, v, k)) {
@@ -81,6 +81,14 @@ var U = exports.utils = {
       dst[k] = v;
     });
     return dst;
+  },
+
+  dict: function(keys, values) {
+    var obj = {};
+    U.foreach(keys, function(k, i) {
+      obj[k] = i && (values && values[i]);
+    });
+    return obj;
   },
 
   args: function(args, n) {
