@@ -5,7 +5,7 @@ window.U = pyy.utils;
 window.H = pyy.html;
 window.I = pyy.io;
 
-window.one = pyy.one;
 window.all = pyy;
+window.one = pyy.one;
 
 U.mix(window, pyy.tags);

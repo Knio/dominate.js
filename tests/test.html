@@ -23,6 +23,7 @@
     test("one", function() {
       var b = one('#test');
       ok(b.dom === test_node);
+      ok(null === one('#nonono'));
     });
     test("all", function() {
       var a = all('#test');
