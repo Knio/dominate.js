@@ -5,7 +5,7 @@ verbose method calls.
 Tests
 -----
 
-See current test suite here: 
+See current test suite here: [pyy.zkpq.ca/tests/test.html](http://pyy.zkpq.ca/tests/test.html) 
 
 Installation
 ------------
