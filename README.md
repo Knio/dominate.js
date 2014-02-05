@@ -2,6 +2,10 @@ __pyy.js__ is a JavaScript library which is designed to facilitate the creation
 of HTML elements in code without the need for either a templating language or
 verbose method calls.
 
+Tests
+-----
+
+See current test suite here: 
 
 Installation
 ------------
@@ -21,7 +25,7 @@ Example Usage
 
 <script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
 
-`pyy.js` implements functions for each HTML tag name. For example, calling the `div` function creates and returns a `<div>` element:
+`pyy.js` includes functions for building DOM nodes and trees. Each HTML tag name is implemented as a global function, so for example calling the `div` function creates and returns a `<div>` element (which we add to the page here):
 
 ```javascript
 document.body.appendChild(
@@ -29,9 +33,11 @@ document.body.appendChild(
 );
 ```
 
-Tag functions accept many different arguments: strings, DOM elements, and objects.
+Tag functions accept many different arguments: *strings*, *DOM elements*, and *JavaScript objects*.
 
-Strings will be added as TextNodes to the element. These strings do not need to be escaped, for example:
+### Strings
+
+Strings will be converted to `TextNodes` and added as children to the element. These strings do not need to be escaped, and there is no possibility of cross site scripting when adding content this way. For example:
 
 ```javascript
 document.body.appendChild(
@@ -39,10 +45,11 @@ document.body.appendChild(
 );
 ```
 
-Works as expected.
+Works as expected, and does not interperate `"<div>"` as another div element.
 
+### DOM Elements
 
-Element arguments will be added as children to the created element. This allows you to nest pyy calls to create more complicated widgets:
+DOM Element arguments will simply be added as children to the created element. This allows you to nest DOM builder calls to create comples strictures and widgets in a single expression:
 
 ```javascript
 document.body.appendChild(
@@ -53,7 +60,9 @@ document.body.appendChild(
 );
 ```
 
-Object arguments set attributes on the html element:
+### JavaScript Objects
+
+JavaScript object arguments are used to set attributes on the element, like so:
 
 ```javascript
 document.body.appendChild(
@@ -63,12 +72,11 @@ document.body.appendChild(
 );
 ```
 
+Many key names have special meanings, used to set other properties of the element:
 
-Some keys have special meanings in pyy:
-
-* `cls` - same as 'class', to avoid the javascript reserved word
-* `style` - an object containing CSS declarations. Style names can be written as both `fontSize` and `font-size`
-* `on*` - event handler function.
+* `cls` - same as 'class', as a convenience to avoid the JavaScript reserved word
+* `style` - an object containing CSS declarations. Style names can be declared in both forms, such as `fontSize` and `font-size`
+* `on*` - an event handler function 
 * `context` - the context to use when calling event handlers
 
 An example button showing these properties:
@@ -88,22 +96,25 @@ document.body.appendChild(
 
 
 
-Building
---------
+Developing
+----------
 
-The library is built using `GNU Make`.
-You must have [Python][2], [Google Closure Lint][3], and
-[Java][4] installed and accessible on your path.
+This library is built using `GNU Make`,
+[Python][2], [Google Closure Lint][3], and
+[Java][4]. The makefile assumes all programs are installed and accessible on your path.
 
-Once built, the assembled library will be created in `/pyy.js` and `/pyy.min.js`
+Once built, the assembled library will be created in `./pyy.js` and `./pyy.min.js`
 
 
-Developed By
-------------
+Authors
+-------
+
+`pyy.js` is developed by:
 
  * Tom Flanagan - <tom.m.flanagan@gmail.com>
  * Jake Wharton - <jakewharton@gmail.com>
 
+And the homepage is located at [github.com/Knio/pyy.js](//github.com/Knio/pyy.js) 
 
 
 License
@@ -124,7 +135,7 @@ License
 
 
 
- [1]: http://pyyjs.com/
+ [1]: http://github.com/Knio/pyy.js
  [2]: http://www.python.org/getit/
  [3]: http://code.google.com/closure/utilities/docs/linter_howto.html
  [4]: http://www.java.com/en/download/
