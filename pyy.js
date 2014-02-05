@@ -307,8 +307,9 @@ var H = exports.html = {
   },
 
   get_classes: function(dom) {
-    if (dom.className === '') { return []; }
-    return dom.className.split(/\s+/);
+    var c = dom.className;
+    if (c === '') { return []; }
+    return c.split(/\s+/);
   },
 
   add_class: function(dom) {
@@ -321,6 +322,25 @@ var H = exports.html = {
     var classes = U.dict(H.get_classes(dom));
     U.foreach(U.args(arguments, 1), function(cls) { delete classes[cls]; });
     dom.className = U.keys(classes).join(' ');
+  },
+
+  toggle_class: function(dom) {
+    var classes = U.dict(H.get_classes(dom));
+    U.foreach(U.args(arguments, 1), function(cls) {
+      if (classes.hasOwnProperty(cls)) {
+        delete classes[cls];
+      } else {
+        classes[cls] = true;
+      }
+    });
+    dom.className = U.keys(classes).join(' ');
+  },
+
+  has_class: function(dom) {
+    var classes = U.dict(H.get_classes(dom));
+    return U.filter(U.args(arguments, 1), function(cls) {
+      return classes.hasOwnProperty(cls);
+    }).length === (arguments.length - 1);
   },
 
   'class': function(dom) {

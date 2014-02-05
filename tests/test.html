@@ -39,13 +39,27 @@
     });
     test("one class", function() {
       deepEqual(one('#test').get_classes(), []);
+      ok(!one('#test').has_class('foo'));
+      
       one('#test').add_class('foo');
+      ok(one('#test').has_class('foo'));
       one('#test').add_class('foo');
-      console.log('"' + test_node.className + '"');
       strictEqual(test_node.className, 'foo');
+
       one('#test').add_class('bar', 'baz');
-      ok(test_node.className === 'foo bar baz');
-      deepEqual(one('#test').get_classes(), ['foo', 'bar', 'baz']);
+      ok(one('#test').has_class('foo', 'bar', 'baz'));
+      ok(!one('#test').has_class('foo', 'moo'));
+      
+      console.log('"' + test_node.className + '"');
+      one('#test').toggle_class('foo', 'moo');
+      console.log('"' + test_node.className + '"');
+      strictEqual(test_node.className, 'bar baz moo');
+      one('#test').toggle_class('foo', 'moo');
+      ok(one('#test').has_class('foo'))
+      ok(!one('#test').has_class('moo'))
+      
+      ok(test_node.className === 'bar baz foo');
+      deepEqual(one('#test').get_classes(), ['bar', 'baz', 'foo']);
       one('#test').remove_class('foo');
       console.log('"' + test_node.className + '"');
       strictEqual(test_node.className, 'bar baz');
