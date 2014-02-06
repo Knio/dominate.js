@@ -2,8 +2,11 @@ __pyy.js__ is a JavaScript library which is designed to facilitate the creation
 of HTML elements in code without the need for either a templating language or
 verbose method calls.
 
-Tests
------
+### Browser support
+
+__pyy.js__ works in most modern browsers, including Chrome, Opera, FireFox, Safari, and IE10. Try the test suite below to see if it works in your browser.
+
+### Tests
 
 See current test suite here: [pyy.zkpq.ca/tests/test.html](http://pyy.zkpq.ca/tests/test.html) 
 
@@ -95,6 +98,41 @@ document.body.appendChild(
 ```
 
 
+Selectors & Wrappers
+--------------------
+
+`one(<selector>)` selects a single element on the page (the first matching the selector) and returns the wrapped DOM element. 
+
+```javascript
+var my_div = one('#mydiv');
+```
+
+`all(<selector>)` returns a wrapped array of all matching DOM elements.
+
+```javascript
+var all_divs = one('body > div');
+```
+
+Both types of wrapped objects include functions for working with the dom elements.
+
+### Adding Child Elements
+
+All the of global tag functions are bound to the wrappers to create child elements and add them to the selected elements, for example:
+
+```javascript
+my_div.span('Text');
+```
+Adds "Text" to the end of `#mydiv`.
+
+
+```javascript
+all_divs.span('Text');
+```
+Adds "Text" to the end of every div.
+
+### HTML Utilities
+
+TODO
 
 Developing
 ----------
