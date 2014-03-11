@@ -8,6 +8,16 @@
 <body>
   <div id="qunit"></div>
   <div id="test">Test</div>
+  <ul>
+    <li class="first">
+      <span>1</span>
+    </li>
+    <li>2</li>
+    <li><span>3</span></li>
+  </ul>
+  <ul>
+    <li>0</li>
+  </ul>
 
   <script src="../lib/qunit.js"></script>
   <script src="../pyy.min.js"></script>
@@ -25,19 +35,23 @@
       ok(b.dom === test_node);
       ok(null === one('#nonono'));
     });
+
     test("all", function() {
       var a = all('#test');
       ok(a.length === 1);
       ok(a[0] === test_node);
     });
+
     test("one add", function() {
       one('#test').empty().update('Test').p('1');
       strictEqual(test_node.innerHTML, 'Test<p>1</p>');
     });
+
     test("one clear", function() {
       one('#test').empty();
       ok(test_node.innerHTML === '');
     });
+
     test("one class", function() {
       deepEqual(one('#test').get_classes(), []);
       ok(!one('#test').has_class('foo'));
@@ -69,14 +83,28 @@
       one('#test').remove_class('bar', 'baz');
       ok(test_node.className === '');
     });
+
     test("list", function() {
       deepEqual(all('#test'), [test_node]);
     });
+
     test("list add", function() {
       one('#test').empty();
       var b = all('#test').p({id: 'test_p'}, '1');
       strictEqual(test_node.innerHTML, '<p id="test_p">1</p>')
       deepEqual(b, [document.getElementById('test_p')]);
+    });
+
+    test("all foreach", function() {
+      expect(1);
+      all('#test').foreach(function(e) {
+        strictEqual(e.dom, test_node);
+      });
+    });
+
+    test("ctx one", function() {
+      notEqual(one('li.first').one('span'), null);
+      equal(one('li.first').all('span').length , 1);
     });
 
     test("one click", function() {

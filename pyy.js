@@ -5,16 +5,16 @@ pyy(elem) - return wrapped element
 elem can be a DOM reference or a css selector string
 */
 
-var pyy = function(arg) {
-  return pyy.wrap_list(Sizzle(arg));
+var pyy = function(arg, el) {
+  return pyy.wrap_list(Sizzle(arg, el));
 };
 
-pyy.one = function(arg) {
+pyy.one = function(arg, el) {
   if (pyy.utils.is_node(arg)) {
     return pyy.wrap(arg);
   }   
   if (typeof arg === 'string') {
-    var nodes = Sizzle(arg);
+    var nodes = Sizzle(arg, el);
     return nodes.length === 0 ? null : pyy.wrap(nodes[0]);
   }
 };
@@ -352,7 +352,6 @@ var H = exports.html = {
   // ----
   // show
   // hide
-  // add all the above to the wrapper
 
   update: function(dom) {
     var context = dom;
@@ -647,6 +646,13 @@ var wrap = exports.wrap = function wrap(dom) {
 
   U.foreach(dom_events, wrap_event);
 
+  wrapper.all = function(selector) {
+    return pyy(selector, dom);
+  };
+  wrapper.one = function(selector) {
+    return pyy.one(selector, dom);
+  };
+
   // TODO
   // wrap functions in html and binding for awesomeness.
   // ideas:
@@ -714,6 +720,12 @@ var wrap_list = exports.wrap_list = function wrap_list(list) {
       dom.addEventListener(name, listener, capture);
     });
     return list;
+  };
+
+  list.foreach = function(fn, ctx) {
+    U.foreach(list, function(e, i) {
+      fn.call(ctx, wrap(e), i);
+    });
   };
 
   U.mix(list, U.map(exports.tags, wrap_tag));

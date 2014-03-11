@@ -82,7 +82,6 @@ var H = exports.html = {
   // ----
   // show
   // hide
-  // add all the above to the wrapper
 
   update: function(dom) {
     var context = dom;

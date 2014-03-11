@@ -84,6 +84,13 @@ var wrap = exports.wrap = function wrap(dom) {
 
   U.foreach(dom_events, wrap_event);
 
+  wrapper.all = function(selector) {
+    return pyy(selector, dom);
+  };
+  wrapper.one = function(selector) {
+    return pyy.one(selector, dom);
+  };
+
   // TODO
   // wrap functions in html and binding for awesomeness.
   // ideas:
@@ -151,6 +158,12 @@ var wrap_list = exports.wrap_list = function wrap_list(list) {
       dom.addEventListener(name, listener, capture);
     });
     return list;
+  };
+
+  list.foreach = function(fn, ctx) {
+    U.foreach(list, function(e, i) {
+      fn.call(ctx, wrap(e), i);
+    });
   };
 
   U.mix(list, U.map(exports.tags, wrap_tag));
