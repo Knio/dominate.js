@@ -1,2 +1,2 @@
 
-})(pyy);
+})(dominate);

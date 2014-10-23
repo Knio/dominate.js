@@ -1,8 +1,8 @@
 
-all: pyy.js pyy.min.js
+all: dominate.js dominate.min.js
 
-pyy.js: \
-	src/pyy.js \
+dominate.js: \
+	src/dominate.js \
 	build/utils.js \
 	build/format.js \
 	build/event.js \
@@ -15,11 +15,11 @@ pyy.js: \
 	lib/sizzle.js \
 	Makefile
 
-pyy.js:
+dominate.js:
 	cat $(filter %.js,$^) > $@
 
 %.min.js: %.js
-	java -jar lib/compiler.jar --js $< > $@
+	java -Xmx64m -XX:MaxPermSize=32m -jar lib/compiler.jar --js $< > $@
 
 
 build/%.js: src/%.js
@@ -33,7 +33,7 @@ build/%.js: src/%.js
 
 clean:
 	-rm build/* -r
-	-rm pyy.js pyy.min.js
+	-rm dominate.js dominate.min.js
 
 
 .PHONY: clean

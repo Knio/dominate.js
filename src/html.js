@@ -103,7 +103,7 @@ var H = exports.html = {
         }
       } else if (typeof argument === 'function') {
           if (argument.hasOwnProperty('dom') && U.is_node(argument.dom)) {
-            // is a pyy.wrap()ed node. add it like a child
+            // is a wrap()ed node. add it like a child
             dom.appendChild(argument.dom);
           }
           else {
