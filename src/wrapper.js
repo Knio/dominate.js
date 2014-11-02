@@ -85,10 +85,10 @@ var wrap = exports.wrap = function wrap(dom) {
   U.foreach(dom_events, wrap_event);
 
   wrapper.all = function(selector) {
-    return pyy(selector, dom);
+    return exports(selector, dom);
   };
   wrapper.one = function(selector) {
-    return pyy.one(selector, dom);
+    return exports.one(selector, dom);
   };
 
   // TODO

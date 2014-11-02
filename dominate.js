@@ -150,7 +150,7 @@ var U = exports.utils = {
 U.json.parse = JSON.parse;
 U.json.stringify = JSON.stringify;
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 
@@ -213,7 +213,7 @@ var format = function(format) {
 
 exports.utils.format = format;
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 var U = exports.utils;
@@ -265,7 +265,7 @@ var listen = function(event, listener) {
 exports.utils.listen = listen;
 exports.utils.event = event;
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 //  HTML utility functions
@@ -485,7 +485,7 @@ U.foreach(tag_names, function(tag) {
   };
 });
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 
@@ -523,7 +523,7 @@ var I = exports.io = {
 
 };
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 // TODO this module is unfinished and untested
@@ -557,7 +557,7 @@ var B = exports.bind = function bind(obj) {
   return binding;
 };
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 
@@ -647,10 +647,10 @@ var wrap = exports.wrap = function wrap(dom) {
   U.foreach(dom_events, wrap_event);
 
   wrapper.all = function(selector) {
-    return pyy(selector, dom);
+    return exports(selector, dom);
   };
   wrapper.one = function(selector) {
-    return pyy.one(selector, dom);
+    return exports.one(selector, dom);
   };
 
   // TODO

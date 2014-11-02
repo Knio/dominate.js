@@ -26,16 +26,16 @@
       	[1, 2, 3, 4, 5],
       ];
 
-      var t = pyy(table());
+      var t = all(table());
       U.foreach(data, function(row) {
       	cols = U.map(row, function(x) { return td(x); });
       	t(tr(cols));
       });
       t.css({'padding':'10px'});
-      pyy(body)(t);
+      all(body)(t);
 
       // chaining
-      var b = pyy(body);
+      var b = all(body);
       b.h1("Title");
       b.div({id:'mydiv'}).p().css({color:'red'}).text("Lorem Ipsum..");
 
@@ -75,8 +75,8 @@
         div(U.format("%.2f", Math.PI))
       ));
 
-      pyy('body').div('Test 1');
-      pyy('body').add_class('test');
+      all('body').div('Test 1');
+      all('body').add_class('test');
 
     </script>
   </body>
