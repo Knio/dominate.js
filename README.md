@@ -1,34 +1,36 @@
-__pyy.js__ is a JavaScript library which is designed to facilitate the creation
+__dominate.js__ is a JavaScript library which is designed to facilitate the creation
 of HTML elements in code without the need for either a templating language or
 verbose method calls.
 
+The dominate homepage is located at [github.com/dominate.js][1]
+
 ### Browser support
 
-__pyy.js__ works in most modern browsers, including Chrome, Opera, FireFox, Safari, and IE10. Try the test suite below to see if it works in your browser.
+__dominate.js__ works in most modern browsers, including Chrome, Opera, FireFox, Safari, and IE10. Try the test suite below to see if it works in your browser.
 
 ### Tests
 
-See current test suite here: [pyy.zkpq.ca/tests/test.html](http://pyy.zkpq.ca/tests/test.html) 
+See current test suite here: [dominate.js.zkpq.ca/tests/test.html](http://dominate.js.zkpq.ca/tests/test.html)
 
 Installation
 ------------
 
 Download the latest build here:
 
-* <http://pyy.zkpq.ca/pyy.min.js>
+* <http://dominate.js.zkpq.ca/dominate.min.js>
 
 Or include it directly on your page:
 
 ```html
-<script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
+<script type="text/javascript" src="http://dominate.js.zkpq.ca/dominate.min.js"></script>
 ```
 
 Example Usage
 -------------
 
-<script type="text/javascript" src="http://pyy.zkpq.ca/pyy.min.js"></script>
+<script type="text/javascript" src="http://dominate.js.zkpq.ca/dominate.min.js"></script>
 
-`pyy.js` includes functions for building DOM nodes and trees. Each HTML tag name is implemented as a global function, so for example calling the `div` function creates and returns a `<div>` element (which we add to the page here):
+`dominate.js` includes functions for building DOM nodes and trees. Each HTML tag name is implemented as a global function, so for example calling the `div` function creates and returns a `<div>` element (which we add to the page here):
 
 ```javascript
 document.body.appendChild(
@@ -70,7 +72,7 @@ JavaScript object arguments are used to set attributes on the element, like so:
 ```javascript
 document.body.appendChild(
     div({id:'links'},
-        a({href: "https://github.com/Knio/pyy.js"}, 'Click here!')
+        a({href: "https://github.com/Knio/dominate.js"}, 'Click here!')
     )
 );
 ```
@@ -79,7 +81,7 @@ Many key names have special meanings, used to set other properties of the elemen
 
 * `cls` - same as 'class', as a convenience to avoid the JavaScript reserved word
 * `style` - an object containing CSS declarations. Style names can be declared in both forms, such as `fontSize` and `font-size`
-* `on*` - an event handler function 
+* `on*` - an event handler function
 * `context` - the context to use when calling event handlers
 
 An example button showing these properties:
@@ -101,7 +103,7 @@ document.body.appendChild(
 Selectors & Wrappers
 --------------------
 
-`one(<selector>)` selects a single element on the page (the first matching the selector) and returns the wrapped DOM element. 
+`one(<selector>)` selects a single element on the page (the first matching the selector) and returns the wrapped DOM element.
 
 ```javascript
 var my_div = one('#mydiv');
@@ -141,18 +143,18 @@ This library is built using `GNU Make`,
 [Python][2], [Google Closure Lint][3], and
 [Java][4]. The makefile assumes all programs are installed and accessible on your path.
 
-Once built, the assembled library will be created in `./pyy.js` and `./pyy.min.js`
+Once built, the assembled library will be created in `/dominate.js` and `/dominate.min.js`
 
 
 Authors
 -------
 
-`pyy.js` is developed by:
+`dominate.js` is developed by:
 
  * Tom Flanagan - <tom.m.flanagan@gmail.com>
  * Jake Wharton - <jakewharton@gmail.com>
 
-And the homepage is located at [github.com/Knio/pyy.js](//github.com/Knio/pyy.js) 
+And the homepage is located at [github.com/Knio/dominate.js](//github.com/Knio/dominate.js)
 
 
 License
@@ -173,7 +175,7 @@ License
 
 
 
- [1]: http://github.com/Knio/pyy.js
+ [1]: https://github.com/Knio/dominate.js
  [2]: http://www.python.org/getit/
  [3]: http://code.google.com/closure/utilities/docs/linter_howto.html
  [4]: http://www.java.com/en/download/

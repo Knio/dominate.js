@@ -23,7 +23,7 @@ var dom_events = [
   'onsubmit'
 ];
 
-// wrap a single DOM element with pyy functions
+// wrap a single DOM element with html functions
 var wrap = exports.wrap = function wrap(dom) {
 
 
@@ -107,7 +107,7 @@ var wrap = exports.wrap = function wrap(dom) {
 };
 
 
-// wrap a list of DOM elements with pyy tag functions
+// wrap a list of DOM elements with tag functions
 var wrap_list = exports.wrap_list = function wrap_list(list) {
 
   // TODO we assume the list is of dom elements.

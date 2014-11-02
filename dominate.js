@@ -1,23 +1,23 @@
 
 /*
-pyy(elem) - return wrapped element
+dominate(elem) - return wrapped element
 
 elem can be a DOM reference or a css selector string
 */
 
-var pyy = function(arg, el) {
-  return pyy.wrap_list(Sizzle(arg, el));
+var dominate = function(arg) {
+    return dominate.wrap_list(Sizzle(arg));
 };
 
-pyy.one = function(arg, el) {
-  if (pyy.utils.is_node(arg)) {
-    return pyy.wrap(arg);
-  }   
-  if (typeof arg === 'string') {
-    var nodes = Sizzle(arg, el);
-    return nodes.length === 0 ? null : pyy.wrap(nodes[0]);
-  }
+dominate.one = function(arg) {
+    if (dominate.utils.is_node(arg)) {
+        return dominate.wrap(arg);
+    }
+    if (typeof arg === 'string') {
+        return dominate.wrap(Sizzle(arg)[0]);
+    }
 };
+
 (function(exports) {
 /*
 Basic JavaScript utility functions
@@ -373,7 +373,7 @@ var H = exports.html = {
         }
       } else if (typeof argument === 'function') {
           if (argument.hasOwnProperty('dom') && U.is_node(argument.dom)) {
-            // is a pyy.wrap()ed node. add it like a child
+            // is a wrap()ed node. add it like a child
             dom.appendChild(argument.dom);
           }
           else {
@@ -438,7 +438,7 @@ var H = exports.html = {
   }
 };
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
 // Create & bind HTML tag functions
@@ -585,7 +585,7 @@ var dom_events = [
   'onsubmit'
 ];
 
-// wrap a single DOM element with pyy functions
+// wrap a single DOM element with html functions
 var wrap = exports.wrap = function wrap(dom) {
 
 
@@ -669,7 +669,7 @@ var wrap = exports.wrap = function wrap(dom) {
 };
 
 
-// wrap a list of DOM elements with pyy tag functions
+// wrap a list of DOM elements with tag functions
 var wrap_list = exports.wrap_list = function wrap_list(list) {
 
   // TODO we assume the list is of dom elements.
@@ -738,22 +738,22 @@ var wrap_list = exports.wrap_list = function wrap_list(list) {
   return list;
 };
 
-})(pyy);
+})(dominate);
 
 (function(exports) {
-// exposes the public API of pyy
+// exposes the public API of dominate
 
-window.P = pyy;
-window.U = pyy.utils;
-window.H = pyy.html;
-window.I = pyy.io;
+window.D = dominate;
+window.U = dominate.utils;
+window.H = dominate.html;
+window.I = dominate.io;
 
-window.all = pyy;
-window.one = pyy.one;
+window.all = dominate;
+window.one = dominate.one;
 
-U.mix(window, pyy.tags);
+U.mix(window, dominate.tags);
 
-})(pyy);
+})(dominate);
 /*!
  * Sizzle CSS Selector Engine v1.10.18-pre
  * http://sizzlejs.com/

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>pyy.js tests</title>
+  <title>dominate.js tests</title>
   <link rel="stylesheet" href="../lib/qunit.css">
 </head>
 <body>
@@ -21,14 +21,14 @@
 
   <script src="../lib/qunit.js"></script>
   <script src="../lib/blanket.js"></script>
-  <script src="../pyy.js" data-cover="true"></script>
+  <script src="../dominate.js" data-cover="true"></script>
 
   <script>
 
     var test_node = document.getElementById('test');
 
 
-    test("pyy1", function(){
+    test("basic", function(){
       ok(div(h1('Hello World')).innerHTML === '<h1>Hello World</h1>');
     });
 
@@ -57,7 +57,7 @@
     test("one class", function() {
       deepEqual(one('#test').get_classes(), []);
       ok(!one('#test').has_class('foo'));
-      
+
       one('#test').add_class('foo');
       ok(one('#test').has_class('foo'));
       one('#test').add_class('foo');
@@ -66,7 +66,7 @@
       one('#test').add_class('bar', 'baz');
       ok(one('#test').has_class('foo', 'bar', 'baz'));
       ok(!one('#test').has_class('foo', 'moo'));
-      
+
       console.log('"' + test_node.className + '"');
       one('#test').toggle_class('foo', 'moo');
       console.log('"' + test_node.className + '"');
@@ -74,7 +74,7 @@
       one('#test').toggle_class('foo', 'moo');
       ok(one('#test').has_class('foo'))
       ok(!one('#test').has_class('moo'))
-      
+
       ok(test_node.className === 'bar baz foo');
       deepEqual(one('#test').get_classes(), ['bar', 'baz', 'foo']);
       one('#test').remove_class('foo');

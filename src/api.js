@@ -1,11 +1,11 @@
-// exposes the public API of pyy
+// exposes the public API of dominate
 
-window.P = pyy;
-window.U = pyy.utils;
-window.H = pyy.html;
-window.I = pyy.io;
+window.D = dominate;
+window.U = dominate.utils;
+window.H = dominate.html;
+window.I = dominate.io;
 
-window.all = pyy;
-window.one = pyy.one;
+window.all = dominate;
+window.one = dominate.one;
 
-U.mix(window, pyy.tags);
+U.mix(window, dominate.tags);
