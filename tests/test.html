@@ -9,7 +9,7 @@
   <div id="qunit"></div>
   <div id="test">Test</div>
   <ul>
-    <li class="first">
+    <li class="dominate_first">
       <span>1</span>
     </li>
     <li>2</li>
@@ -105,8 +105,8 @@
     });
 
     test("ctx one", function() {
-      notEqual(one('li.first').one('span'), null);
-      equal(one('li.first').all('span').length , 1);
+      notEqual(one('li.dominate_first').one('span'), null);
+      equal(one('li.dominate_first').all('span').length , 1);
     });
 
     test("one click", function() {

@@ -14,7 +14,11 @@ dominate.one = function(arg) {
         return dominate.wrap(arg);
     }
     if (typeof arg === 'string') {
-        return dominate.wrap(Sizzle(arg)[0]);
+        var r = Sizzle(arg);
+        if (r.length >= 1) {
+            return dominate.wrap(r[0]);
+        }
+        return null;
     }
 };
 
