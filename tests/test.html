@@ -87,7 +87,9 @@
     });
 
     test("list", function() {
+      // deepEqual([1, 2], [1, 2]);
       deepEqual(all('#test'), [test_node]);
+      // strictEqual(all('#test')[0], [test_node][0]);
     });
 
     test("list add", function() {

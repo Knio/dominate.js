@@ -1,8 +1,6 @@
-__dominate.js__ is a JavaScript library which is designed to facilitate the creation
-of HTML elements in code without the need for either a templating language or
-verbose method calls.
+__dominate.js__ is a [Vanilla JS](http://vanilla-js.com/) plugin which is designed to facilitate the creation of HTML elements in code without the need for either a templating language or verbose method calls.
 
-The dominate homepage is located at [github.com/dominate.js][1]
+The dominate homepage is located at [GitHub.com/Knio/dominate.js][1]
 
 ### Browser support
 

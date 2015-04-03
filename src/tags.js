@@ -5,8 +5,8 @@ var tag_names = [
   'canvas', 'caption', 'code', 'col', 'colgroup', 'dd', 'div', 'dl', 'dt',
   'em', 'fieldset', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5',
   'h6', 'header', 'hgroup', 'hr', 'img', 'input', 'label', 'legend', 'li',
-  'link', 'main', 'math', 'nav', 'ol', 'optgroup', 'option', 'output', 'p', 'pre',
-  'progress', 'script', 'section', 'select', 'small', 'source', 'span',
+  'link', 'main', 'math', 'nav', 'ol', 'optgroup', 'option', 'output', 'p',
+  'pre', 'progress', 'script', 'section', 'select', 'small', 'source', 'span',
   'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea',
   'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
   // TODO add more here (svg, etc)
@@ -32,7 +32,7 @@ T.text = function(text) {
  * @return {node} Function for creating corresponding DOM element.
  */
 
-U.foreach(tag_names, function(tag) {
+T.create_tag = function(tag) {
   T[tag] = function() {
     var element = document.createElement(tag);
     H.update.apply(this, [element].concat(U.args(arguments)));
@@ -40,4 +40,6 @@ U.foreach(tag_names, function(tag) {
     // TODO
     // could return wrapped element here, if wrapper gets good.
   };
-});
+};
+
+U.foreach(tag_names, create_tag);

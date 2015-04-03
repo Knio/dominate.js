@@ -25,7 +25,7 @@ var dom_events = [
 
 // wrap a single DOM element with html functions
 var wrap = exports.wrap = function wrap(dom) {
-
+  if (!U.is_node(dom)) { return null; }
 
   // Calling the wrapped object calls D.update
   var wrapper = function() {

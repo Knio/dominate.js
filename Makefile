@@ -12,7 +12,7 @@ dominate.js: \
 	build/binding.js \
 	build/wrapper.js \
 	build/api.js \
-	lib/sizzle.js \
+	# lib/sizzle.js \
 	Makefile
 
 dominate.js:
