@@ -2,9 +2,10 @@
 
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Test</title>
-	  <!-- <script type="text/javascript" src="https://raw.github.com/Knio/pyy.js/master/pyy.min.js"></script> -->
-	  <script type="text/javascript" src="../pyy.js"></script>
+	  <!-- <script type="text/javascript" src="https://raw.github.com/Knio/dominate.js/master/dominate.min.js"></script> -->
+	  <script type="text/javascript" src="../dominate.js"></script>
   </head>
   <body>
     <script type="text/javascript">
@@ -26,16 +27,16 @@
       	[1, 2, 3, 4, 5],
       ];
 
-      var t = all(table());
+      var t = one(table());
       U.foreach(data, function(row) {
       	cols = U.map(row, function(x) { return td(x); });
       	t(tr(cols));
       });
       t.css({'padding':'10px'});
-      all(body)(t);
+      one(body)(t);
 
       // chaining
-      var b = all(body);
+      var b = one(body);
       b.h1("Title");
       b.div({id:'mydiv'}).p().css({color:'red'}).text("Lorem Ipsum..");
 
@@ -77,6 +78,11 @@
 
       all('body').div('Test 1');
       all('body').add_class('test');
+
+
+      // data binding
+      var name = D.bind("John");
+      body.appendChild(div(name));
 
     </script>
   </body>

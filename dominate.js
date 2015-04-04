@@ -511,7 +511,7 @@ T.create_tag = function(tag) {
   };
 };
 
-U.foreach(tag_names, create_tag);
+U.foreach(tag_names, T.create_tag);
 
 })(dominate);
 
