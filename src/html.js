@@ -105,8 +105,12 @@ var H = exports.html = {
           if (argument.hasOwnProperty('dom') && U.is_node(argument.dom)) {
             // is a wrap()ed node. add it like a child
             dom.appendChild(argument.dom);
-          }
-          else {
+          } else if (argument.name === 'binding') {
+            // dominate binding
+            var n = document.createTextNode(argument());
+            argument.register(function(v) { this.nodeValue = v; }, n);
+            dom.appendChild(n);
+          } else {
             // What do we do here??
             throw 'Not a DOM node';
           }

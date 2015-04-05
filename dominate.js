@@ -401,8 +401,12 @@ var H = exports.html = {
           if (argument.hasOwnProperty('dom') && U.is_node(argument.dom)) {
             // is a wrap()ed node. add it like a child
             dom.appendChild(argument.dom);
-          }
-          else {
+          } else if (argument.name === 'binding') {
+            // dominate binding
+            var n = document.createTextNode(argument());
+            argument.register(function(v) { this.nodeValue = v; }, n);
+            dom.appendChild(n);
+          } else {
             // What do we do here??
             throw 'Not a DOM node';
           }
@@ -557,20 +561,21 @@ var I = exports.io = {
 // TODO this module is unfinished and untested
 
 var U = exports.utils;
+
 var B = exports.bind = function bind(obj) {
   var listeners = [];
-  var binding = function(a, b) {
-    if (binding instanceof Array) {
+  var binding = function binding(a, b) {
+    if (obj instanceof Array) {
       if      (arguments.length === 0)  { return obj; }
       else if (arguments.length === 1)  { return obj[a]; }
       else                              { obj[a] = b; }
     } else {
       if (arguments.length === 0) { return obj; }
-      else                        { obj = val;  }
+      else                        { obj = a; }
     }
 
     U.foreach(listeners, function(cb) {
-      cb.func.apply(cb.context, obj);
+      cb.func.call(cb.context, obj, a, b);
     });
   };
 
