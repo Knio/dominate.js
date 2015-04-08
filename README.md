@@ -110,7 +110,7 @@ var my_div = one('#mydiv');
 `all(<selector>)` returns a wrapped array of all matching DOM elements.
 
 ```javascript
-var all_divs = one('body > div');
+var all_divs = all('body > div');
 ```
 
 Both types of wrapped objects include functions for working with the dom elements.
