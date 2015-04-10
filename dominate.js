@@ -30,6 +30,7 @@ elem can be a DOM reference or a css selector string
     ctx = ctx || document;
     return dominate.wrap_list(U.args(ctx.querySelectorAll(arg)));
   };
+  dominate.all = dominate;
 
   dominate.one = function(arg, ctx) {
     if (dominate.utils.is_node(arg)) {
@@ -325,6 +326,17 @@ var H = exports.html = {
     dom.innerHTML = '';
   },
 
+  add: function(dom) {
+    for (var i = 1; i < arguments.length; i++) {
+      var a = arguments[i];
+      if (a instanceof exports.wrapper) {
+        dom.appendChild(a.dom);
+      } else {
+        dom.appendChild(a);
+      }
+    }
+  },
+
   css: function(dom) {
     U.foreach(U.args(arguments, 1), function(css) {
       U.foreach(css, function(val, key) {
@@ -473,7 +485,7 @@ var H = exports.html = {
 (function(exports) {
 // Create & bind HTML tag functions
 
-var tag_names = [
+var tag_names = exports.tag_names = [
   'a', 'address', 'article', 'aside', 'audio', 'blockquote', 'br', 'button',
   'canvas', 'caption', 'code', 'col', 'colgroup', 'dd', 'div', 'dl', 'dt',
   'em', 'fieldset', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5',
@@ -485,10 +497,9 @@ var tag_names = [
   // TODO add more here (svg, etc)
 ];
 
-var U = exports.utils;
 var H = exports.html;
+var U = exports.utils;
 var T = exports.tags = {};
-
 
 /**
  * Create a DOM text node.
@@ -618,87 +629,68 @@ var dom_events = [
   'onsubmit'
 ];
 
-// wrap a single DOM element with html functions
-var wrap = exports.wrap = function wrap(dom) {
+
+var wrapper = exports.wrapper = function(dom) {
+  this.dom = dom;
+};
+
+var wrap = exports.wrap = function(dom) {
   if (!U.is_node(dom)) { return null; }
+  return new wrapper(dom);
+};
 
-  // Calling the wrapped object calls D.update
-  var wrapper = function() {
-    var args = [dom].concat(U.args(arguments));
-    H.update.apply(dom, args);
-    return wrapper;
+// add all html functions
+var wrap_html = function(fn, name) {
+  return function() {
+    var args = U.args(arguments);
+    args.unshift(this.dom);
+    var ret = fn.apply(null, args);
+    if (ret === undefined)  { return this; }
+    if (U.is_node(ret))     { return wrap(ret); }
+    return ret;
   };
-  wrapper.dom = dom;
+};
 
-  // add all html functions
-  var wrap_html = function(fn, name) {
-    return function() {
-      var args = U.args(arguments);
-      args.unshift(dom);
-      var ret = fn.apply(null, args);
-      if (ret !== undefined) {
-        if (U.is_node(ret)) {
-          return wrap(ret);
-        }
-        return ret;
-      }
-      return wrapper;
+// add all tags
+var wrap_tag = function(fn, name) {
+  return function() {
+    var node = document.createElement(name);
+    var args = U.args(arguments);
+    args.unshift(node);
+    H.update.apply(null, args);
+    this.dom.appendChild(node);
+    return new wrapper(node);
+  };
+};
+
+U.mix(wrapper.prototype, U.map(exports.tags, wrap_tag));
+U.mix(wrapper.prototype, U.map(exports.html, wrap_html));
+
+wrapper.prototype.on = function(name, fn, context, capture) {
+  var dom = this.dom;
+  capture = capture || false;
+  var listener = function(e) {
+    var ctx = context || wrap(this);
+    var ret = fn.call(ctx, e, listener);
+    if (ret === false) {
+      dom.removeEventListener(name, listener, capture);
     }
   };
-
-  // add all tags
-  var wrap_tag = function(fn, name) {
-    return function() {
-      var node = fn.apply(null, U.args(arguments));
-      dom.appendChild(node);
-      return wrap(node);
-    };
-  };
-
-  wrapper.on = function(name, fn, context, capture) {
-    capture = capture || false;
-    var listener = function(e) {
-      var ctx = context || wrap(this);
-      var ret = fn.call(ctx, e, listener);
-      if (ret === false) {
-        dom.removeEventListener(name, listener, capture);
-      }
-    };
-    dom.addEventListener(name, listener, capture);
-    return wrapper;
-  };
-
-  var wrap_event = function(name) {
-    wrapper[name] = function(fn, context, capture) {
-      return wrapper.on(name.slice(2), fn, context, capture);
-    };
-  };
-
-  U.mix(wrapper, U.map(exports.tags, wrap_tag));
-  U.mix(wrapper, U.map(exports.html, wrap_html));
-
-  U.foreach(dom_events, wrap_event);
-
-  wrapper.all = function(selector) {
-    return exports(selector, dom);
-  };
-  wrapper.one = function(selector) {
-    return exports.one(selector, dom);
-  };
-
-  // TODO
-  // wrap functions in html and binding for awesomeness.
-  // ideas:
-  /*
-  var name = bind("Foo");
-  body.div("name:").span(name);
-
-  name("Bar"); // updates div
-
-  */
-
-
+  dom.addEventListener(name, listener, capture);
   return wrapper;
+};
+
+U.foreach(dom_events, function(name) {
+  wrapper.prototype[name] = function(fn, context, capture) {
+    return this.on(name.slice(2), fn, context, capture);
+  };
+});
+
+wrapper.prototype.all = function(selector) {
+  return exports.all(selector, this.dom);
+};
+wrapper.prototype.one = function(selector) {
+  return exports.one(selector, this.dom);
 };
 
 
@@ -716,7 +708,7 @@ var wrap_list = exports.wrap_list = function wrap_list(list) {
         dom.appendChild(node);
         return node;
       }));
-    }
+    };
   };
 
   var wrap_html = function(fn, name) {

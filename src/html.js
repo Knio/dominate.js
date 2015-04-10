@@ -29,6 +29,17 @@ var H = exports.html = {
     dom.innerHTML = '';
   },
 
+  add: function(dom) {
+    for (var i = 1; i < arguments.length; i++) {
+      var a = arguments[i];
+      if (a instanceof exports.wrapper) {
+        dom.appendChild(a.dom);
+      } else {
+        dom.appendChild(a);
+      }
+    }
+  },
+
   css: function(dom) {
     U.foreach(U.args(arguments, 1), function(css) {
       U.foreach(css, function(val, key) {

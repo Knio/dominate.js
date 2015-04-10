@@ -1,6 +1,6 @@
 // Create & bind HTML tag functions
 
-var tag_names = [
+var tag_names = exports.tag_names = [
   'a', 'address', 'article', 'aside', 'audio', 'blockquote', 'br', 'button',
   'canvas', 'caption', 'code', 'col', 'colgroup', 'dd', 'div', 'dl', 'dt',
   'em', 'fieldset', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5',
@@ -12,10 +12,9 @@ var tag_names = [
   // TODO add more here (svg, etc)
 ];
 
-var U = exports.utils;
 var H = exports.html;
+var U = exports.utils;
 var T = exports.tags = {};
-
 
 /**
  * Create a DOM text node.

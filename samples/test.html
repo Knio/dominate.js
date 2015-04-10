@@ -22,18 +22,18 @@
 
       // dynamicly generating tags
       var data = [
-      	[1, 2, 3, 4, 5],
-      	[1, 2, 3, 4, 5],
-      	[1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5],
       ];
 
       var t = one(table());
       U.foreach(data, function(row) {
       	cols = U.map(row, function(x) { return td(x); });
-      	t(tr(cols));
+      	t.add(tr(cols));
       });
       t.css({'padding':'10px'});
-      one(body)(t);
+      one(body).add(t);
 
       // chaining
       var b = one(body);
@@ -83,6 +83,16 @@
       // data binding
       var user_name = D.bind("John");
       body.appendChild(div(user_name));
+
+
+      // benchmark
+      function benchmark(){
+        var c = one('body').div()
+        for (i=0; i<1000; i++) {
+          c.div("text");
+        }
+      }
+      one('body').button('run benchmark', {onclick:benchmark});
 
     </script>
   </body>

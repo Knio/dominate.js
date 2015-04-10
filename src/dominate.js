@@ -30,6 +30,7 @@ elem can be a DOM reference or a css selector string
     ctx = ctx || document;
     return dominate.wrap_list(U.args(ctx.querySelectorAll(arg)));
   };
+  dominate.all = dominate;
 
   dominate.one = function(arg, ctx) {
     if (dominate.utils.is_node(arg)) {
