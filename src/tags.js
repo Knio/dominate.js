@@ -7,8 +7,8 @@ var tag_names = exports.tag_names = [
   'h6', 'header', 'hgroup', 'hr', 'img', 'input', 'label', 'legend', 'li',
   'link', 'main', 'math', 'nav', 'ol', 'optgroup', 'option', 'output', 'p',
   'pre', 'progress', 'script', 'section', 'select', 'small', 'source', 'span',
-  'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea',
-  'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
+  'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'template',
+  'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
   // TODO add more here (svg, etc)
 ];
 
