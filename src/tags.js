@@ -1,13 +1,13 @@
 // Create & bind HTML tag functions
 
 var tag_names = exports.tag_names = [
-  'a', 'address', 'article', 'aside', 'audio', 'blockquote', 'br', 'button',
-  'canvas', 'caption', 'code', 'col', 'colgroup', 'dd', 'div', 'dl', 'dt',
-  'em', 'fieldset', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5',
-  'h6', 'header', 'hgroup', 'hr', 'img', 'input', 'label', 'legend', 'li',
-  'link', 'main', 'math', 'nav', 'ol', 'optgroup', 'option', 'output', 'p',
-  'pre', 'progress', 'script', 'section', 'select', 'small', 'source', 'span',
-  'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'template',
+  'a', 'address', 'article', 'aside', 'audio', 'blockquote', 'b', 'br',
+  'button', 'canvas', 'caption', 'code', 'col', 'colgroup', 'dd', 'div', 'dl',
+  'dt', 'em', 'fieldset', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4',
+  'h5', 'h6', 'header', 'hgroup', 'hr', 'i', 'img', 'input', 'label', 'legend',
+  'li', 'link', 'main', 'math', 'nav', 'ol', 'optgroup', 'option', 'output',
+  'p', 'pre', 'progress', 'script', 'section', 'select', 'small', 'source',
+  'span', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'template',
   'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'ul', 'video'
   // TODO add more here (svg, etc)
 ];
