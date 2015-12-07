@@ -26,7 +26,10 @@ var is_event_name = function(name) {
 var H = exports.html = {
 
   empty: function(dom) {
-    dom.innerHTML = '';
+    var child;
+    while (child=dom.lastChild) {
+      dom.removeChild(child);
+    }
   },
 
   add: function(dom) {
