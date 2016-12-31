@@ -27,7 +27,7 @@ var H = exports.html = {
 
   empty: function(dom) {
     var child;
-    while (child=dom.lastChild) {
+    while (child = dom.lastChild) {
       dom.removeChild(child);
     }
   },
@@ -86,6 +86,16 @@ var H = exports.html = {
     return U.filter(U.args(arguments, 1), function(cls) {
       return classes.hasOwnProperty(cls);
     }).length === (arguments.length - 1);
+  },
+
+  set_class: function(dom, cls, v) {
+    var classes = U.dict(H.get_classes(dom));
+    if (v || v === undefined) {
+      classes[cls] = 1;
+    } else {
+      delete classes[cls];
+    }
+    dom.className = U.keys(classes).join(' ');
   },
 
   'class': function(dom) {

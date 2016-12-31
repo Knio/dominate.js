@@ -22,6 +22,7 @@ dominate.js:
 
 
 build/%.js: src/%.js
+	@mkdir -p build
 	@cat src/_header.js > $@
 	cat $< >> $@
 	@cat src/_footer.js >> $@
@@ -39,5 +40,5 @@ clean:
 .DELETE_ON_ERROR:
 
 depends:
-	sudo easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
+	sudo -H pip install closure_linter
 	sudo apt-get install openjdk-7-jdk
